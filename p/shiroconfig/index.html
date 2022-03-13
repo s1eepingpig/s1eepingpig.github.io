@@ -1,32 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='介绍在Springboot中配置使用shiro By the way:差点忘了怎么新建hugo文章，每次都要现查一下，其实是hugo new path/name.md 啦
-进入正文：
-1、先在pom.xml中添加依赖
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  &amp;lt;dependencies&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.shiro&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;shiro-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.4.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.shiro&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;shiro-spring&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.4.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;/dependencies&amp;gt;   2、在Config中添加MyRealm（以下demo只做简单验证不做授权。 and extends from AuthorizingRealm
-you should override two methods of that abstract class, rewrite doGetAuthenticationInfo to check user info like below.
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  public class MyRealm extends AuthorizingRealm { @Override protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection){ return null; } @Override protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException { String username = (String) token.'><title>ShiroConfig</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='A brief introduction of using shiro in Springboot'><title>ShiroConfig</title>
 
-<link rel='canonical' href='https://example.com/p/shiroconfig/'>
+<link rel='canonical' href='https://log.tcosx.com/p/shiroconfig/'>
 
 <link rel="stylesheet" href="/scss/style.min.b80bf249ce4a22cf55e8d7340a0b37a2f2c10f54f3a9a49cb94b694a2eb0bbea.css"><meta property='og:title' content='ShiroConfig'>
-<meta property='og:description' content='介绍在Springboot中配置使用shiro By the way:差点忘了怎么新建hugo文章，每次都要现查一下，其实是hugo new path/name.md 啦
-进入正文：
-1、先在pom.xml中添加依赖
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  &amp;lt;dependencies&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.shiro&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;shiro-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.4.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.shiro&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;shiro-spring&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.4.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;/dependencies&amp;gt;   2、在Config中添加MyRealm（以下demo只做简单验证不做授权。 and extends from AuthorizingRealm
-you should override two methods of that abstract class, rewrite doGetAuthenticationInfo to check user info like below.
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  public class MyRealm extends AuthorizingRealm { @Override protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection){ return null; } @Override protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException { String username = (String) token.'>
-<meta property='og:url' content='https://example.com/p/shiroconfig/'>
-<meta property='og:site_name' content='Example Site'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-03-13T15:55:30&#43;08:00'/><meta property='article:modified_time' content='2022-03-13T15:55:30&#43;08:00'/>
+<meta property='og:description' content='A brief introduction of using shiro in Springboot'>
+<meta property='og:url' content='https://log.tcosx.com/p/shiroconfig/'>
+<meta property='og:site_name' content='S1 log'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Springboot' /><meta property='article:tag' content='Shiro' /><meta property='article:published_time' content='2022-03-13T15:55:30&#43;08:00'/><meta property='article:modified_time' content='2022-03-13T15:55:30&#43;08:00'/>
 <meta name="twitter:title" content="ShiroConfig">
-<meta name="twitter:description" content="介绍在Springboot中配置使用shiro By the way:差点忘了怎么新建hugo文章，每次都要现查一下，其实是hugo new path/name.md 啦
-进入正文：
-1、先在pom.xml中添加依赖
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  &amp;lt;dependencies&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.shiro&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;shiro-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.4.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.apache.shiro&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;shiro-spring&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.4.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;/dependencies&amp;gt;   2、在Config中添加MyRealm（以下demo只做简单验证不做授权。 and extends from AuthorizingRealm
-you should override two methods of that abstract class, rewrite doGetAuthenticationInfo to check user info like below.
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  public class MyRealm extends AuthorizingRealm { @Override protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection){ return null; } @Override protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException { String username = (String) token.">
+<meta name="twitter:description" content="A brief introduction of using shiro in Springboot">
     </head>
     <body class="
     article-page
@@ -76,14 +61,14 @@ you should override two methods of that abstract class, rewrite doGetAuthenticat
                 
                 </a>
                 
-                    <span class="emoji">🍥</span>
+                    <span class="emoji">⚡️</span>
                 
             </figure>
             
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">Example Site</a></h1>
+            <h1 class="site-name"><a href="/">S1 log</a></h1>
             <h2 class="site-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
         </div>
     </header><ol class="social-menu">
@@ -247,11 +232,11 @@ you should override two methods of that abstract class, rewrite doGetAuthenticat
 
                     <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
                         
-                            <option value="https://example.com/" selected>English</option>
+                            <option value="https://log.tcosx.com/" selected>English</option>
                         
-                            <option value="https://example.com/cn/" >中文</option>
+                            <option value="https://log.tcosx.com/cn/" >中文</option>
                         
-                            <option value="https://example.com/ar/" >عربي</option>
+                            <option value="https://log.tcosx.com/ar/" >عربي</option>
                         
                     </select>
                 </li>
@@ -293,6 +278,10 @@ you should override two methods of that abstract class, rewrite doGetAuthenticat
             <a href="/p/shiroconfig/">ShiroConfig</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            A brief introduction of using shiro in Springboot
+        </h3>
         
     </div>
 
@@ -523,6 +512,14 @@ you should override two methods of that abstract class, rewrite doGetAuthenticat
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/tags/springboot/">Springboot</a>
+        
+            <a href="/tags/shiro/">Shiro</a>
+        
+    </section>
+
 
     
     <section class="article-copyright">
@@ -599,7 +596,7 @@ you should override two methods of that abstract class, rewrite doGetAuthenticat
         
             2020 - 
         
-        2022 Example Site
+        2022 S1 log
     </section>
     
     <section class="powerby">

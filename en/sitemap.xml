@@ -2,195 +2,195 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://example.com/</loc>
+    <loc>https://log.tcosx.com/</loc>
     <lastmod>2022-03-13T15:55:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://example.com/cn/"
+                href="https://log.tcosx.com/cn/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="https://example.com/ar/"
+                href="https://log.tcosx.com/ar/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/"
+                href="https://log.tcosx.com/"
                 />
   </url><url>
-    <loc>https://example.com/post/</loc>
+    <loc>https://log.tcosx.com/post/</loc>
     <lastmod>2022-03-13T15:55:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://example.com/cn/post/"
+                href="https://log.tcosx.com/cn/post/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="https://example.com/ar/post/"
+                href="https://log.tcosx.com/ar/post/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/post/"
+                href="https://log.tcosx.com/post/"
                 />
   </url><url>
-    <loc>https://example.com/p/shiroconfig/</loc>
+    <loc>https://log.tcosx.com/tags/shiro/</loc>
     <lastmod>2022-03-13T15:55:30+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/p/first/</loc>
+    <loc>https://log.tcosx.com/p/shiroconfig/</loc>
+    <lastmod>2022-03-13T15:55:30+08:00</lastmod>
+  </url><url>
+    <loc>https://log.tcosx.com/tags/springboot/</loc>
+    <lastmod>2022-03-13T15:55:30+08:00</lastmod>
+  </url><url>
+    <loc>https://log.tcosx.com/tags/</loc>
+    <lastmod>2022-03-13T15:55:30+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://log.tcosx.com/cn/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ar"
+                href="https://log.tcosx.com/ar/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://log.tcosx.com/tags/"
+                />
+  </url><url>
+    <loc>https://log.tcosx.com/p/first/</loc>
     <lastmod>2022-03-11T13:22:28+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/first/</loc>
-    <lastmod>2022-03-11T13:22:28+08:00</lastmod>
-  </url><url>
-    <loc>https://example.com/posts/</loc>
-    <lastmod>2022-03-11T13:22:28+08:00</lastmod>
-  </url><url>
-    <loc>https://example.com/archives/</loc>
+    <loc>https://log.tcosx.com/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/page/</loc>
+    <loc>https://log.tcosx.com/page/</loc>
     <lastmod>2020-10-09T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://example.com/cn/page/"
+                href="https://log.tcosx.com/cn/page/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/page/"
+                href="https://log.tcosx.com/page/"
                 />
   </url><url>
-    <loc>https://example.com/categories/</loc>
+    <loc>https://log.tcosx.com/categories/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://example.com/cn/categories/"
+                href="https://log.tcosx.com/cn/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="https://example.com/ar/categories/"
+                href="https://log.tcosx.com/ar/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/categories/"
+                href="https://log.tcosx.com/categories/"
                 />
   </url><url>
-    <loc>https://example.com/tags/css/</loc>
+    <loc>https://log.tcosx.com/tags/css/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/html/</loc>
+    <loc>https://log.tcosx.com/tags/html/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/markdown/</loc>
+    <loc>https://log.tcosx.com/tags/markdown/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/p/markdown-syntax-guide/</loc>
+    <loc>https://log.tcosx.com/p/markdown-syntax-guide/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/categories/syntax/</loc>
+    <loc>https://log.tcosx.com/categories/syntax/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="cn"
-                href="https://example.com/cn/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://example.com/ar/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://example.com/tags/"
-                />
-  </url><url>
-    <loc>https://example.com/tags/themes/</loc>
+    <loc>https://log.tcosx.com/tags/themes/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/categories/themes/</loc>
+    <loc>https://log.tcosx.com/categories/themes/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/privacy/</loc>
+    <loc>https://log.tcosx.com/tags/privacy/</loc>
     <lastmod>2019-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/p/rich-content/</loc>
+    <loc>https://log.tcosx.com/p/rich-content/</loc>
     <lastmod>2019-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/shortcodes/</loc>
+    <loc>https://log.tcosx.com/tags/shortcodes/</loc>
     <lastmod>2019-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/p/placeholder-text/</loc>
+    <loc>https://log.tcosx.com/p/placeholder-text/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="https://example.com/ar/p/%D9%85%D8%AB%D8%A7%D9%84-%D9%86%D8%B5/"
+                href="https://log.tcosx.com/ar/p/%D9%85%D8%AB%D8%A7%D9%84-%D9%86%D8%B5/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/p/placeholder-text/"
+                href="https://log.tcosx.com/p/placeholder-text/"
                 />
   </url><url>
-    <loc>https://example.com/tags/tag-with-whitespaces/</loc>
+    <loc>https://log.tcosx.com/tags/tag-with-whitespaces/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/categories/test/</loc>
+    <loc>https://log.tcosx.com/categories/test/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://example.com/cn/categories/test/"
+                href="https://log.tcosx.com/cn/categories/test/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/categories/test/"
+                href="https://log.tcosx.com/categories/test/"
                 />
   </url><url>
-    <loc>https://example.com/categories/test-with-whitespaces/</loc>
+    <loc>https://log.tcosx.com/categories/test-with-whitespaces/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/text/</loc>
+    <loc>https://log.tcosx.com/tags/text/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/p/math-typesetting/</loc>
+    <loc>https://log.tcosx.com/p/math-typesetting/</loc>
     <lastmod>2019-03-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/emoji/</loc>
+    <loc>https://log.tcosx.com/tags/emoji/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/p/emoji-support/</loc>
+    <loc>https://log.tcosx.com/p/emoji-support/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/about/</loc>
+    <loc>https://log.tcosx.com/about/</loc>
     <lastmod>2020-10-09T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://example.com/cn/%E5%85%B3%E4%BA%8E/"
+                href="https://log.tcosx.com/cn/%E5%85%B3%E4%BA%8E/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/about/"
+                href="https://log.tcosx.com/about/"
                 />
   </url><url>
-    <loc>https://example.com/links/</loc>
+    <loc>https://log.tcosx.com/links/</loc>
   </url><url>
-    <loc>https://example.com/search/</loc>
+    <loc>https://log.tcosx.com/search/</loc>
   </url>
 </urlset>
