@@ -11,11 +11,6 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ar"
-                href="https://log.tcosx.com/ar/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="cn"
                 href="https://log.tcosx.com/cn/"
                 />
@@ -26,11 +21,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://log.tcosx.com/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://log.tcosx.com/ar/categories/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -47,11 +37,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://log.tcosx.com/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://log.tcosx.com/ar/post/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -92,11 +77,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://log.tcosx.com/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://log.tcosx.com/ar/tags/"
                 />
     <xhtml:link
                 rel="alternate"

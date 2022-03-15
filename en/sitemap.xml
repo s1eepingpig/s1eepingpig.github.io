@@ -11,11 +11,6 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ar"
-                href="https://log.tcosx.com/ar/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="en"
                 href="https://log.tcosx.com/"
                 />
@@ -26,11 +21,6 @@
                 rel="alternate"
                 hreflang="cn"
                 href="https://log.tcosx.com/cn/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://log.tcosx.com/ar/post/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -53,11 +43,6 @@
                 rel="alternate"
                 hreflang="cn"
                 href="https://log.tcosx.com/cn/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://log.tcosx.com/ar/tags/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -90,11 +75,6 @@
                 rel="alternate"
                 hreflang="cn"
                 href="https://log.tcosx.com/cn/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://log.tcosx.com/ar/categories/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -132,39 +112,22 @@
     <loc>https://log.tcosx.com/tags/shortcodes/</loc>
     <lastmod>2019-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://log.tcosx.com/p/placeholder-text/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://log.tcosx.com/ar/p/%D9%85%D8%AB%D8%A7%D9%84-%D9%86%D8%B5/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://log.tcosx.com/p/placeholder-text/"
-                />
-  </url><url>
-    <loc>https://log.tcosx.com/tags/tag-with-whitespaces/</loc>
+    <loc>https://log.tcosx.com/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://log.tcosx.com/categories/test/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="cn"
-                href="https://log.tcosx.com/cn/categories/test/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://log.tcosx.com/categories/test/"
-                />
-  </url><url>
-    <loc>https://log.tcosx.com/categories/test-with-whitespaces/</loc>
+    <loc>https://log.tcosx.com/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://log.tcosx.com/tags/text/</loc>
+    <loc>https://log.tcosx.com/tags/%D9%85%D8%A7%D8%B1%D9%83%D8%AF%D8%A7%D9%88%D9%86/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://log.tcosx.com/p/%D9%85%D8%AB%D8%A7%D9%84-%D9%86%D8%B5/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://log.tcosx.com/tags/%D9%86%D8%B5/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://log.tcosx.com/tags/%D9%88%D8%B3%D9%85-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://log.tcosx.com/p/math-typesetting/</loc>
@@ -175,6 +138,19 @@
   </url><url>
     <loc>https://log.tcosx.com/p/emoji-support/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://log.tcosx.com/categories/test/</loc>
+    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://log.tcosx.com/cn/categories/test/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://log.tcosx.com/categories/test/"
+                />
   </url><url>
     <loc>https://log.tcosx.com/about/</loc>
     <lastmod>2020-10-09T00:00:00+00:00</lastmod>
