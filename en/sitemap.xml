@@ -118,19 +118,6 @@
     <loc>https://log.tcosx.com/p/emoji-support/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://log.tcosx.com/categories/test/</loc>
-    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="cn"
-                href="https://log.tcosx.com/cn/categories/test/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://log.tcosx.com/categories/test/"
-                />
-  </url><url>
     <loc>https://log.tcosx.com/about/</loc>
     <lastmod>2020-10-09T00:00:00+00:00</lastmod>
     <xhtml:link
@@ -144,8 +131,6 @@
                 href="https://log.tcosx.com/about/"
                 />
   </url><url>
-    <loc>https://log.tcosx.com/links/</loc>
-  </url><url>
-    <loc>https://log.tcosx.com/search/</loc>
+    <loc>https://log.tcosx.com/onemanager/</loc>
   </url>
 </urlset>
