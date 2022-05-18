@@ -25,15 +25,15 @@ A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小
 VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。
 所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。
  以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
-那有没有什么办法可以共享呢？
-前提条件是被共享的设备和共享的设备处于同一子网，使用局域网内（比如同一WIFI，但实测不支持手机开热点同时分享VPN（可能是iOS的问题））可以让数据先到达应用层再通过局域网进行转发（比如使用HTTP协议），以ShadowRocket为例，在先点击&#34;设置&#34;-&amp;gt;&#34;代理共享&#34;
- 打开&#34;启用共享&#34;。再用获得的局域网IP和端口对共享设备进行HTTP代理设置即能实现共享。这时数据的加密和解密是通过手机app进行的。（软路由原理类似）
- 为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
+为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
 首先的威胁来自长城防火墙。
 脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。
 还有一些因素也能决定隧道的稳定性，比如VPS机房的位置，运营商和线路的选择。比如选择电信还是联通？163还是CN2 GIA？不同线路的表现均有差距。还和终端(比如手机)的算力有关，使用越复杂的加密方式对就对算力有更高的要求。总之很多原因都会造成使用VPN体验不佳，甚至无法连接。
 其实这本身是一件很复杂的事情，但是各种一键搭建脚本现在在网络上随处可见。正因为这样，我不认为它能实现所谓的真正私密。你我能搜到的，我不信网安部门的人搜不到。就算再伪装到最后也是要走三大运营商的骨干网的。现今中国的网络安全领域是走在世界前列的，曾经甚至因为DNS污染还影响过中国大陆以外的用户上网。现在仍会在每年在几个重要的时间节点进行&#34;大规模扫荡&#34;。我认为防火墙尚留薄面的原因也是如此，它对于封禁非法VPN的力度强弱是周期循环的，而非一直增强的。其完全有能力全年如一日，可是好像并没有。
-用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。'><title>聊聊VPN</title>
+用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。
+VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一个主机。网线电线、硬盘、维护这些都是有成本的。所以有的VPS会根据进出流量、使用时长或硬盘等等方式计费。如果是大型的VPN服务提供商做产品广告提供一些限制速度流量上限的免费线路可以理解（就算是GCP这样白送钱的也是要有门槛的吧。）但是为什么会有人自掏腰包舍己为人把这样本身违法的事儿硬生生办成了一门公益事业呢？往好了想，可能真是为了让每个人都能自由的访问互联网，那太伟大了，我敬是条汉子。往坏了想。。那咱就不知道了。 自建的VPN又如何呢？ 一个秘密知道的人越少就越安全。按照这个思路，可以思考一下自建实现科学上网的过程都有谁知道？
+首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：
+1 使用的软件'><title>聊聊VPN</title>
 
 <link rel='canonical' href='https://log.tcosx.com/p/%E8%81%8A%E8%81%8Avpn/'>
 
@@ -62,15 +62,15 @@ A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小
 VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。
 所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。
  以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
-那有没有什么办法可以共享呢？
-前提条件是被共享的设备和共享的设备处于同一子网，使用局域网内（比如同一WIFI，但实测不支持手机开热点同时分享VPN（可能是iOS的问题））可以让数据先到达应用层再通过局域网进行转发（比如使用HTTP协议），以ShadowRocket为例，在先点击&#34;设置&#34;-&amp;gt;&#34;代理共享&#34;
- 打开&#34;启用共享&#34;。再用获得的局域网IP和端口对共享设备进行HTTP代理设置即能实现共享。这时数据的加密和解密是通过手机app进行的。（软路由原理类似）
- 为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
+为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
 首先的威胁来自长城防火墙。
 脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。
 还有一些因素也能决定隧道的稳定性，比如VPS机房的位置，运营商和线路的选择。比如选择电信还是联通？163还是CN2 GIA？不同线路的表现均有差距。还和终端(比如手机)的算力有关，使用越复杂的加密方式对就对算力有更高的要求。总之很多原因都会造成使用VPN体验不佳，甚至无法连接。
 其实这本身是一件很复杂的事情，但是各种一键搭建脚本现在在网络上随处可见。正因为这样，我不认为它能实现所谓的真正私密。你我能搜到的，我不信网安部门的人搜不到。就算再伪装到最后也是要走三大运营商的骨干网的。现今中国的网络安全领域是走在世界前列的，曾经甚至因为DNS污染还影响过中国大陆以外的用户上网。现在仍会在每年在几个重要的时间节点进行&#34;大规模扫荡&#34;。我认为防火墙尚留薄面的原因也是如此，它对于封禁非法VPN的力度强弱是周期循环的，而非一直增强的。其完全有能力全年如一日，可是好像并没有。
-用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。'>
+用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。
+VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一个主机。网线电线、硬盘、维护这些都是有成本的。所以有的VPS会根据进出流量、使用时长或硬盘等等方式计费。如果是大型的VPN服务提供商做产品广告提供一些限制速度流量上限的免费线路可以理解（就算是GCP这样白送钱的也是要有门槛的吧。）但是为什么会有人自掏腰包舍己为人把这样本身违法的事儿硬生生办成了一门公益事业呢？往好了想，可能真是为了让每个人都能自由的访问互联网，那太伟大了，我敬是条汉子。往坏了想。。那咱就不知道了。 自建的VPN又如何呢？ 一个秘密知道的人越少就越安全。按照这个思路，可以思考一下自建实现科学上网的过程都有谁知道？
+首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：
+1 使用的软件'>
 <meta property='og:url' content='https://log.tcosx.com/p/%E8%81%8A%E8%81%8Avpn/'>
 <meta property='og:site_name' content='A Site'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2020-06-15T10:57:53&#43;08:00'/><meta property='article:modified_time' content='2020-06-15T10:57:53&#43;08:00'/><meta property='og:image' content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
@@ -99,15 +99,15 @@ A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小
 VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。
 所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。
  以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
-那有没有什么办法可以共享呢？
-前提条件是被共享的设备和共享的设备处于同一子网，使用局域网内（比如同一WIFI，但实测不支持手机开热点同时分享VPN（可能是iOS的问题））可以让数据先到达应用层再通过局域网进行转发（比如使用HTTP协议），以ShadowRocket为例，在先点击&#34;设置&#34;-&amp;gt;&#34;代理共享&#34;
- 打开&#34;启用共享&#34;。再用获得的局域网IP和端口对共享设备进行HTTP代理设置即能实现共享。这时数据的加密和解密是通过手机app进行的。（软路由原理类似）
- 为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
+为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
 首先的威胁来自长城防火墙。
 脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。
 还有一些因素也能决定隧道的稳定性，比如VPS机房的位置，运营商和线路的选择。比如选择电信还是联通？163还是CN2 GIA？不同线路的表现均有差距。还和终端(比如手机)的算力有关，使用越复杂的加密方式对就对算力有更高的要求。总之很多原因都会造成使用VPN体验不佳，甚至无法连接。
 其实这本身是一件很复杂的事情，但是各种一键搭建脚本现在在网络上随处可见。正因为这样，我不认为它能实现所谓的真正私密。你我能搜到的，我不信网安部门的人搜不到。就算再伪装到最后也是要走三大运营商的骨干网的。现今中国的网络安全领域是走在世界前列的，曾经甚至因为DNS污染还影响过中国大陆以外的用户上网。现在仍会在每年在几个重要的时间节点进行&#34;大规模扫荡&#34;。我认为防火墙尚留薄面的原因也是如此，它对于封禁非法VPN的力度强弱是周期循环的，而非一直增强的。其完全有能力全年如一日，可是好像并没有。
-用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。"><meta name="twitter:card" content="summary_large_image">
+用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。
+VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一个主机。网线电线、硬盘、维护这些都是有成本的。所以有的VPS会根据进出流量、使用时长或硬盘等等方式计费。如果是大型的VPN服务提供商做产品广告提供一些限制速度流量上限的免费线路可以理解（就算是GCP这样白送钱的也是要有门槛的吧。）但是为什么会有人自掏腰包舍己为人把这样本身违法的事儿硬生生办成了一门公益事业呢？往好了想，可能真是为了让每个人都能自由的访问互联网，那太伟大了，我敬是条汉子。往坏了想。。那咱就不知道了。 自建的VPN又如何呢？ 一个秘密知道的人越少就越安全。按照这个思路，可以思考一下自建实现科学上网的过程都有谁知道？
+首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：
+1 使用的软件"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
     </head>
     <body class="
@@ -377,11 +377,6 @@ VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同�
 <p><strong>所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。</strong></p>
 <div class="wp-block-image"><figure class="aligncenter"><img src="https://rwizjg.sn.files.1drv.com/y4mtmSHV1cBr8rGIAv_zpjcrYcmWZb7gOIOQekxZ9Ejdhwg16BfLzyarHI2vfVaHhHM2s2thA7CQTk9KPZxI9h1tY1NXBLHS1-M9DjVc9tTI0CFV0IXSa9Hqd5LBRk0FC6v8bA0tkvGSQpx_lg7rlV4SRdMz6dXvaRYnDA3YAPbyndquFptupH1-eCCs7VUb9EcoXcEajgDIx3sdwMuGOYf4g?width=1920&amp;height=1080&amp;cropmode=none" alt=""/></figure></div>
 <p>以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。</p>
-<p><strong>那有没有什么办法可以共享呢？</strong></p>
-<p>前提条件是被共享的设备和共享的设备处于同一子网，使用局域网内（比如同一WIFI，但实测不支持手机开热点同时分享VPN（可能是iOS的问题））可以让数据先到达应用层再通过局域网进行转发（比如使用HTTP协议），以ShadowRocket为例，在先点击"设置"-&gt;"代理共享"</p>
-<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://rwivjg.sn.files.1drv.com/y4m07dycd7k21DUVuSegx0TiY7RF5i0kSkXDkAlXb-SPmt4-Nw--RNvg5669htFMZwAmpOOmk15_a_qrgeA_CBV5D4oioOgob5vmybl38OJecPLcfrWazJSCWlC7QSFNy_IXUztwrrLekheHBHkzyWDLVX_GTz6QVCh71A2j73aoKov8BnErd-DW_O1XkSwzB4M6D8apYkjBSLu6a2og1CLDw?width=1242&amp;height=2688&amp;cropmode=none" alt="" width="234" height="505"/></figure></div>
-<p>打开"启用共享"。再用获得的局域网IP和端口对共享设备进行HTTP代理设置即能实现共享。这时数据的加密和解密是通过手机app进行的。（软路由原理类似）</p>
-<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://rwisjg.sn.files.1drv.com/y4m8WY4vp_xuDOCggRWKM96SdwIT0JW8f8V_9YVWukdtpGqHMvwb2Lp6lRXM6cWQB3pHQG4vCMB28sGVzH7sGlYvjiIf6_LgeCXMQeG3Oej7COd6ZznHfK-VCFD2-xk7BIsaEUKA7SPxhz0VtbkzRpGawiNORmdmVBy75v15MG9nLPGqZRpESYHYqf9Q-0G0JF649e2HVpHzNABjCeIL1cLXw?width=1242&amp;height=2688&amp;cropmode=none" alt="" width="231" height="497"/></figure></div>
 <h2>为什么经常被封？</h2>
 <h3>脆弱的环节：这条隧道。</h3>
 <p>我国法律规定未经许可访问国际网络属于违法行为。</p>
@@ -397,13 +392,13 @@ VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同�
 <p>一个秘密知道的人越少就越安全。按照这个思路，可以思考一下自建实现科学上网的过程都有谁知道？</p>
 <p>首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：</p>
 <p>1 使用的软件</p>
-<p>2 VPS服务器 </p>
+<p>2 VPS服务器</p>
 <p>以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，能力有限也无从判断真伪。本着相信软件又开源又有那么多人使用的情况下赌它没问题。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。</p>
 <p>这里要说明的是现在的翻墙脚本都提供详细的日志在VPS上可供查询，细到具体的IP连接数量，访问了哪些网站，访问的时间等等，下面以SSR的客户端的日志做展示。</p>
 <div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://swi1bq.sn.files.1drv.com/y4mnXdT1tUNRiRF1wlbFw8Ww4nHTYmjrO_ZnQ6svfR0UuPZVgrkJqM7xBQyFVnEstbZbkq6ewWs69oo42KRohvRaD0oJpdElZT6xoezBVY-XkLuuvdsfC5k9s_QNmSjwHzr64Z5No_pLJ09XATWLOQLUGiUdH57rH5iUddj6wiM6dlbqvST-_YlhYE27gyMBsg5qvJpBxxbhPRTv73U9kkB4w?width=2688&amp;height=946&amp;cropmode=none" alt="" width="576" height="203"/></figure></div>
 <p>最后就是VPS本身了。VPS的供应商，会因服务商而异，也因所在地区具体法律政策而异。以Bandwagon Host的用户使用条款为例，</p>
 <div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://swi4bq.sn.files.1drv.com/y4m9hrgNJFOWTvUwJYzrzRowI0Wv_zrdgRSQHhPShH52vvukDPWeIoDC-1rxZV0ImCCLhZlmSv4u5RdadJnXCZWW4ubZWnx49PevulwQLi26VSG7LKA9tbKbkpL6p77tP7eKXrbbEZfeM6M-3Y9YtH3kqPCeHhtbmNIUHme-QmW6LJwsHr5UnEyWRCgGEgqXT7X58Ct1SxbeX0VZvJjAC7NXA?width=1189&amp;height=469&amp;cropmode=none" alt="" width="584" height="230"/></figure></div>
-<p>其中并没有提及对服务器数据的使用，只提到了如若数据丢失不保。</p>
+<p>其中并没有提及对服务器数据的使用，只提到了如若数据丢失不承担责任。</p>
 <p>另外涉及VPS购买者本人信息的，条款中写明了有两种情况会向第三方提供</p>
 <p>1是用于IP申请。</p>
 <p>2向支付服务提供商(Alipay PayPal等)用于验证付款方式和订单记录。</p>
@@ -413,14 +408,8 @@ VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同�
 <div class="wp-block-image"><figure class="aligncenter"><img src="https://smizjg.sn.files.1drv.com/y4mdY63SW_fAnS4mvAP0TaNZI5i4kx0S-aVdFEo3yIH2VlqjXrkT0ek_Wg7RzGWYATr62FXhqvO_MtW_Tx83G8DhhihmWIQ77jUmwTRugSKHAy0jhvPURaSDqxvbUCrt4K73M3gzBO4S3qSYE32mCGtUcjaFEk_qeJMNOJjkaV3LaitUAFMVhqQEJGgGvk4ng1pJx50P4s2VRklAyNe-0sTwg?width=512&amp;height=320&amp;cropmode=none" alt=""/></figure></div>
 <p>我认为正常低调地使用网络被查水表的概率是很低的，这和"当我是个废物的时候就没什么人想要利用我了"是一个道理，当他们费尽周章查到我的地址账号信息，结果发现我只是看了两集小猪佩奇，我猜他们也会挺懊恼的。对付我这样的人使用防火墙例行升级就行了，完全没必要1V1对线。</p>
 <p>我的意思是千万千万不要渴望跟网警对线。这是19年夏天纽约时报香港的一个新闻：</p>
-<!-- wp:image {"id":245,"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large"><img src="https://tk.cosc.me/wp-content/uploads/2020/06/image-12.png" alt="" class="wp-image-245"/></figure>
-<!-- /wp:image -->
-<!-- wp:image {"id":244,"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large"><img src="https://tk.cosc.me/wp-content/uploads/2020/06/image-11.png" alt="" class="wp-image-244"/></figure>
-<!-- /wp:image -->
 <h2 id="写在最后">写在最后：</h2>
-<p><strong>全文已经结束。以下仅为个人看法，若有不同观点一定是你对，关掉网页就好了。</strong></p>
+<p><strong>全文已经结束。以下仅为个人看法，若有不同观点一定是你对，关掉就好了。</strong></p>
 <p>关于防火墙利弊的讨论从它出现的那天起就一直争议不断。"防火墙之父"方滨兴本人在公众平台也受到过辱骂，甚至曾遭人扔过鸡蛋。</p>
 <p><strong>这不是一币两面的事儿</strong></p>
 <p>你说它是坏的，但它确实给中国的互联网企业一片沃土，孕育出了像阿里，腾讯字节跳动这样改变中国影响世界的公司，不至于像欧洲被逼无奈拿出数字税抗衡美国的数字霸权，我们有更大的主动权。但你说它是好的，它令它的喜恶为你的喜恶，替你挡了很多垃圾的同时，也让你丧失了很多看到这个世界本来面目的机会。很多选择的权利。</p>
@@ -428,7 +417,7 @@ VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同�
 <p><strong>你觉得片面的事实是不是事实？</strong></p>
 <p>客观是一个模糊到近乎不存在的概念，比如，当摄影记者在现场决定"拍什么"，或者不拍什么的时候，他已经有了无数个主观判断。影像只是他的作品。</p>
 <p><strong>中国人美国人爱国的人。</strong></p>
-<p>我讨厌大字报一样的口号标语。我的爱国情怀是通过偶尔发生在身边让我触动或愤慨的经历，和远在天边的人对中国这样那样的看法中相互交织融合、慢慢建立起来的。中国人是人，美国人也是人，每个人都是人。我会因为看到武汉解封的那一天人们录的短视频由衷地开心，会因为在podcast听到美国的一位护士因为疫情工作没有见到母亲最后一面而替她遗憾。我不觉得疫情期间歧视武汉人的那些人和美国歧视有色人种的人有什么本质区别。不管是在哪的人，首先都要是个人。</p>
+<p>我讨厌大字报一样的口号标语。我的爱国情怀是通过偶尔发生在身边让我触动或愤慨的经历，和远在天边的人对中国这样那样的看法中相互交织融合、慢慢建立起来的。中国人是人，美国人也是人，每个人都是人。我会因为看到武汉解封的那一天人们录的视频由衷地开心，会因为在podcast听到美国的一位护士因为疫情工作没有见到母亲最后一面而替她遗憾。我不觉得疫情期间歧视武汉人的那些人和美国歧视有色人种的人有什么本质区别。不管是在哪的人，首先都要是个人。</p>
 <p>就这样吧。</p>
 <p><strong>愿世界永远和平。</strong></p>
 <p>参考内容</p>
