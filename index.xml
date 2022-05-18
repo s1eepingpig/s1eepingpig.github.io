@@ -288,7 +288,16 @@ RepVGG的优点：&lt;/p&gt;
 &lt;h3&gt;VPN：&lt;/h3&gt;
 &lt;p&gt;即&lt;strong&gt;虚拟专用网络(virtual private network&lt;/strong&gt;)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。&lt;/p&gt;
 &lt;p&gt;常见的应用有两种：正向代理和反向代理。&lt;/p&gt;
-&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter is-resized&#34;&gt;&lt;img src=&#34;https://r2kfpa.sn.files.1drv.com/y4mKkkCHq-H0J5_PrENyAwFMsD553mApf4Y3_rTc7FWnysbGJZzsMmXD2sHU2777kMJXJz211nsD3COKjRSUeoZAjJCi_JzUGVy1IgSoquzMFu2MoOefJJ114yvNP0LsXcx9O2vA4itX94w39rMwdnYFYQbk499suNe43_0u2j3O4pigNGH51W5CutvmR8ac7sGAgBEAMXYpRXI7ExxWAyzCQ?width=465&amp;amp;height=230&amp;amp;cropmode=none&#34; alt=&#34;&#34; width=&#34;386&#34; height=&#34;191&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://r2kfpa.sn.files.1drv.com/y4mKkkCHq-H0J5_PrENyAwFMsD553mApf4Y3_rTc7FWnysbGJZzsMmXD2sHU2777kMJXJz211nsD3COKjRSUeoZAjJCi_JzUGVy1IgSoquzMFu2MoOefJJ114yvNP0LsXcx9O2vA4itX94w39rMwdnYFYQbk499suNe43_0u2j3O4pigNGH51W5CutvmR8ac7sGAgBEAMXYpRXI7ExxWAyzCQ?width=465&amp;amp;amp;height=230&amp;amp;amp;cropmode=none&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h4&gt;正向代理&lt;/h4&gt;
 &lt;p&gt;即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。&lt;/p&gt;
 &lt;h4&gt;反向代理&lt;/h4&gt;
@@ -296,25 +305,59 @@ RepVGG的优点：&lt;/p&gt;
 &lt;center&gt;&lt;p class=&#34;has-medium-font-size&#34;&gt;&lt;strong&gt;这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。&lt;/strong&gt;&lt;/p&gt;&lt;/center&gt;
 &lt;p&gt;这是因为现今普遍使用的定位方式&lt;em&gt;[2]&lt;/em&gt;是通过sim卡IMSI(运营商基站) + GPS + WIFI + IP 的&lt;strong&gt;多重定位&lt;/strong&gt;方式。查阅高德地图Android 获取定位SDK&lt;em&gt;[3]&lt;/em&gt;可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。&lt;/p&gt;
 &lt;p&gt;另外感兴趣的可以&lt;a rel=&#34;noreferrer noopener&#34; href=&#34;https://www.opengps.cn/Data/IP/rtb.aspx&#34; target=&#34;_blank&#34;&gt;点此连接🔗&lt;/a&gt;查看自己的IP定位结果(还挺准的是吧？)&lt;/p&gt;
-&lt;!-- wp:image {&#34;align&#34;:&#34;center&#34;,&#34;id&#34;:62,&#34;width&#34;:591,&#34;height&#34;:380,&#34;sizeSlug&#34;:&#34;large&#34;} --&gt;
-&lt;figure class=&#34;aligncenter size-large is-resized&#34; name=&#34;高德SDK&#34;&gt;&lt;img src=&#34;https://sat02pap002files.storage.live.com/y4ma_uZ4vAUMKwX3De7XaA976iZ7G1E2QKKEUw0QDb5TheNggEJjiBJgq7bWKfuFSQnwAmKkYnNYKpc2TeJdhO2cHcpudpbmAUdPdFOKQGAsUXsWJTa_q5x_UvTsAZ4hQaPYkvQScIvfVqYR7xHh4iVQHzvAhS-Lo0807MJDwrWqD0P7ZfaI0XFVRc062s0mZ0e?width=951&amp;height=612&amp;cropmode=none&#34; alt=&#34;&#34; class=&#34;wp-image-62&#34; width=&#34;591&#34; height=&#34;380&#34;/&gt;&lt;/figure&gt;
-&lt;!-- /wp:image --&gt;
+&lt;p&gt;&lt;img src=&#34;https://sat02pap002files.storage.live.com/y4ma_uZ4vAUMKwX3De7XaA976iZ7G1E2QKKEUw0QDb5TheNggEJjiBJgq7bWKfuFSQnwAmKkYnNYKpc2TeJdhO2cHcpudpbmAUdPdFOKQGAsUXsWJTa_q5x_UvTsAZ4hQaPYkvQScIvfVqYR7xHh4iVQHzvAhS-Lo0807MJDwrWqD0P7ZfaI0XFVRc062s0mZ0e?width=951&amp;amp;height=612&amp;amp;cropmode=none&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img0&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2&gt;长城防火墙。&lt;/h2&gt;
-&lt;p&gt;翻墙一个绕不开的话题是Great firewall&lt;em&gt;[4]&lt;/em&gt;。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。&lt;/p&gt;
+&lt;p&gt;翻墙一个绕不开的话题是Great firewall&lt;sup&gt;[4]&lt;/sup&gt;。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。&lt;/p&gt;
 &lt;h2&gt;VPN如何工作？&lt;/h2&gt;
 &lt;p&gt;我们来看张图&lt;/p&gt;
-&lt;p class=&#34;has-text-align-center&#34;&gt;&lt;img width=&#34;521&#34; height=&#34;413&#34; src=&#34;https://r2kzpa.sn.files.1drv.com/y4mFaOGQIRTdOfstXwz919IeNaQxYK0xuvIzE1xV-AQoo5-n9O-83-4QdnQbIfFskHQt5XdolQJoW06fJEmzsvwJcW1xdbQ1RWA3Cixs5zuWHkk02Bt3EH2uNilULl1SMU1uJcCKnJGrkcXw7bVuFX75LZDtsJQolCpXGaSq1E29QucpuNlCQVvsvstPccIEjqGhDIbL5t4zhE-IkcUiTWLlA?width=521&amp;amp;height=413&amp;amp;cropmode=none&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://r2kzpa.sn.files.1drv.com/y4mFaOGQIRTdOfstXwz919IeNaQxYK0xuvIzE1xV-AQoo5-n9O-83-4QdnQbIfFskHQt5XdolQJoW06fJEmzsvwJcW1xdbQ1RWA3Cixs5zuWHkk02Bt3EH2uNilULl1SMU1uJcCKnJGrkcXw7bVuFX75LZDtsJQolCpXGaSq1E29QucpuNlCQVvsvstPccIEjqGhDIbL5t4zhE-IkcUiTWLlA?width=521&amp;amp;amp;height=413&amp;amp;amp;cropmode=none&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。&lt;/p&gt;
 &lt;p&gt;A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小王就是那个&#34;VPS&#34;。&lt;/p&gt;
 &lt;h2&gt;所以都需要什么?&lt;/h2&gt;
-&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter&#34;&gt;&lt;img src=&#34;https://swiqbq.sn.files.1drv.com/y4mjlH0ezX6Cj16NbE_cVatGtUIpZ9C5ej3rQ5X1K7GwURvzfEyAUCQnw1_4W3NM8r4w9zhhaQ4_-kuVn85JNHvM3-eD6RQuebWmdWVP8KHLv-XTasH_dhj05LxIMdx5JLrb_xMIP0bjYRp-F2QdD0VJ4iHKH6733WsMjXI9B_SMXHx2orD1x9TWsPbmDTlz7F7EQhv_hsZEVava4h4w49kJA?width=1100&amp;amp;height=371&amp;amp;cropmode=none&#34; alt=&#34;&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://swiqbq.sn.files.1drv.com/y4mjlH0ezX6Cj16NbE_cVatGtUIpZ9C5ej3rQ5X1K7GwURvzfEyAUCQnw1_4W3NM8r4w9zhhaQ4_-kuVn85JNHvM3-eD6RQuebWmdWVP8KHLv-XTasH_dhj05LxIMdx5JLrb_xMIP0bjYRp-F2QdD0VJ4iHKH6733WsMjXI9B_SMXHx2orD1x9TWsPbmDTlz7F7EQhv_hsZEVava4h4w49kJA?width=1100&amp;amp;amp;height=371&amp;amp;amp;cropmode=none&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img0&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p class=&#34;has-medium-font-size&#34;&gt;&lt;strong&gt;1、一台不受Great Firewall影响的VPS。&lt;/strong&gt;&lt;/p&gt;
 &lt;p class=&#34;has-medium-font-size&#34;&gt;&lt;strong&gt;2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。&lt;/p&gt;
 &lt;p&gt;另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）&lt;/p&gt;
-&lt;p&gt;VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。&lt;/p&gt;
+&lt;p&gt;VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如&lt;code&gt;443&lt;/code&gt;用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入&lt;code&gt;https://www.baidu.com:443&lt;/code&gt;时等效&lt;code&gt;https://www.baidu.com&lt;/code&gt;，但是如果把端口变成&lt;code&gt;80&lt;/code&gt;或者&lt;code&gt;22&lt;/code&gt;，往往就无法正常访问。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter&#34;&gt;&lt;img src=&#34;https://rwizjg.sn.files.1drv.com/y4mtmSHV1cBr8rGIAv_zpjcrYcmWZb7gOIOQekxZ9Ejdhwg16BfLzyarHI2vfVaHhHM2s2thA7CQTk9KPZxI9h1tY1NXBLHS1-M9DjVc9tTI0CFV0IXSa9Hqd5LBRk0FC6v8bA0tkvGSQpx_lg7rlV4SRdMz6dXvaRYnDA3YAPbyndquFptupH1-eCCs7VUb9EcoXcEajgDIx3sdwMuGOYf4g?width=1920&amp;amp;height=1080&amp;amp;cropmode=none&#34; alt=&#34;&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://rwizjg.sn.files.1drv.com/y4mtmSHV1cBr8rGIAv_zpjcrYcmWZb7gOIOQekxZ9Ejdhwg16BfLzyarHI2vfVaHhHM2s2thA7CQTk9KPZxI9h1tY1NXBLHS1-M9DjVc9tTI0CFV0IXSa9Hqd5LBRk0FC6v8bA0tkvGSQpx_lg7rlV4SRdMz6dXvaRYnDA3YAPbyndquFptupH1-eCCs7VUb9EcoXcEajgDIx3sdwMuGOYf4g?width=1920&amp;amp;amp;height=1080&amp;amp;amp;cropmode=none&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img1&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。&lt;/p&gt;
 &lt;h2&gt;为什么经常被封？&lt;/h2&gt;
 &lt;h3&gt;脆弱的环节：这条隧道。&lt;/h3&gt;
@@ -332,11 +375,29 @@ RepVGG的优点：&lt;/p&gt;
 &lt;p&gt;首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：&lt;/p&gt;
 &lt;p&gt;1 使用的软件&lt;/p&gt;
 &lt;p&gt;2 VPS服务器&lt;/p&gt;
-&lt;p&gt;以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，能力有限也无从判断真伪。本着相信软件又开源又有那么多人使用的情况下赌它没问题。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。&lt;/p&gt;
+&lt;p&gt;以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，软件都是开源的，问题不大。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。&lt;/p&gt;
 &lt;p&gt;这里要说明的是现在的翻墙脚本都提供详细的日志在VPS上可供查询，细到具体的IP连接数量，访问了哪些网站，访问的时间等等，下面以SSR的客户端的日志做展示。&lt;/p&gt;
-&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter is-resized&#34;&gt;&lt;img src=&#34;https://swi1bq.sn.files.1drv.com/y4mnXdT1tUNRiRF1wlbFw8Ww4nHTYmjrO_ZnQ6svfR0UuPZVgrkJqM7xBQyFVnEstbZbkq6ewWs69oo42KRohvRaD0oJpdElZT6xoezBVY-XkLuuvdsfC5k9s_QNmSjwHzr64Z5No_pLJ09XATWLOQLUGiUdH57rH5iUddj6wiM6dlbqvST-_YlhYE27gyMBsg5qvJpBxxbhPRTv73U9kkB4w?width=2688&amp;amp;height=946&amp;amp;cropmode=none&#34; alt=&#34;&#34; width=&#34;576&#34; height=&#34;203&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://swi1bq.sn.files.1drv.com/y4mnXdT1tUNRiRF1wlbFw8Ww4nHTYmjrO_ZnQ6svfR0UuPZVgrkJqM7xBQyFVnEstbZbkq6ewWs69oo42KRohvRaD0oJpdElZT6xoezBVY-XkLuuvdsfC5k9s_QNmSjwHzr64Z5No_pLJ09XATWLOQLUGiUdH57rH5iUddj6wiM6dlbqvST-_YlhYE27gyMBsg5qvJpBxxbhPRTv73U9kkB4w?width=2688&amp;amp;amp;height=946&amp;amp;amp;cropmode=none&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;最后就是VPS本身了。VPS的供应商，会因服务商而异，也因所在地区具体法律政策而异。以Bandwagon Host的用户使用条款为例，&lt;/p&gt;
-&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter is-resized&#34;&gt;&lt;img src=&#34;https://swi4bq.sn.files.1drv.com/y4m9hrgNJFOWTvUwJYzrzRowI0Wv_zrdgRSQHhPShH52vvukDPWeIoDC-1rxZV0ImCCLhZlmSv4u5RdadJnXCZWW4ubZWnx49PevulwQLi26VSG7LKA9tbKbkpL6p77tP7eKXrbbEZfeM6M-3Y9YtH3kqPCeHhtbmNIUHme-QmW6LJwsHr5UnEyWRCgGEgqXT7X58Ct1SxbeX0VZvJjAC7NXA?width=1189&amp;amp;height=469&amp;amp;cropmode=none&#34; alt=&#34;&#34; width=&#34;584&#34; height=&#34;230&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://swi4bq.sn.files.1drv.com/y4m9hrgNJFOWTvUwJYzrzRowI0Wv_zrdgRSQHhPShH52vvukDPWeIoDC-1rxZV0ImCCLhZlmSv4u5RdadJnXCZWW4ubZWnx49PevulwQLi26VSG7LKA9tbKbkpL6p77tP7eKXrbbEZfeM6M-3Y9YtH3kqPCeHhtbmNIUHme-QmW6LJwsHr5UnEyWRCgGEgqXT7X58Ct1SxbeX0VZvJjAC7NXA?width=1189&amp;amp;amp;height=469&amp;amp;amp;cropmode=none&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;其中并没有提及对服务器数据的使用，只提到了如若数据丢失不承担责任。&lt;/p&gt;
 &lt;p&gt;另外涉及VPS购买者本人信息的，条款中写明了有两种情况会向第三方提供&lt;/p&gt;
 &lt;p&gt;1是用于IP申请。&lt;/p&gt;
@@ -344,7 +405,16 @@ RepVGG的优点：&lt;/p&gt;
 &lt;p&gt;其余情况除非法律要求，不然不会分享你的信息给第三方。&lt;/p&gt;
 &lt;h3&gt;网警&#34;钓鱼执法&#34;的问题。&lt;/h3&gt;
 &lt;p&gt;早有人讨论说某些VPN软件是警方的钓鱼工具，下载使用就可以抓到人blabla。。对这个我保留意见。就像我上面说的，直接执法都没难度为啥要钓鱼执法？网警咋这么有闲心？其实我也挺想知道为什么网警有更有效简单的方式却选择线下抓人。难不成是为了杀鸡儆猴？&lt;/p&gt;
-&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter&#34;&gt;&lt;img src=&#34;https://smizjg.sn.files.1drv.com/y4mdY63SW_fAnS4mvAP0TaNZI5i4kx0S-aVdFEo3yIH2VlqjXrkT0ek_Wg7RzGWYATr62FXhqvO_MtW_Tx83G8DhhihmWIQ77jUmwTRugSKHAy0jhvPURaSDqxvbUCrt4K73M3gzBO4S3qSYE32mCGtUcjaFEk_qeJMNOJjkaV3LaitUAFMVhqQEJGgGvk4ng1pJx50P4s2VRklAyNe-0sTwg?width=512&amp;amp;height=320&amp;amp;cropmode=none&#34; alt=&#34;&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;https://smizjg.sn.files.1drv.com/y4mdY63SW_fAnS4mvAP0TaNZI5i4kx0S-aVdFEo3yIH2VlqjXrkT0ek_Wg7RzGWYATr62FXhqvO_MtW_Tx83G8DhhihmWIQ77jUmwTRugSKHAy0jhvPURaSDqxvbUCrt4K73M3gzBO4S3qSYE32mCGtUcjaFEk_qeJMNOJjkaV3LaitUAFMVhqQEJGgGvk4ng1pJx50P4s2VRklAyNe-0sTwg?width=512&amp;amp;amp;height=320&amp;amp;amp;cropmode=none&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;我认为正常低调地使用网络被查水表的概率是很低的，这和&#34;当我是个废物的时候就没什么人想要利用我了&#34;是一个道理，当他们费尽周章查到我的地址账号信息，结果发现我只是看了两集小猪佩奇，我猜他们也会挺懊恼的。对付我这样的人使用防火墙例行升级就行了，完全没必要1V1对线。&lt;/p&gt;
 &lt;p&gt;我的意思是千万千万不要渴望跟网警对线。这是19年夏天纽约时报香港的一个新闻：&lt;/p&gt;
 &lt;h2 id=&#34;写在最后&#34;&gt;写在最后：&lt;/h2&gt;

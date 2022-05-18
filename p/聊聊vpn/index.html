@@ -9,22 +9,22 @@
 还有最近：有人说疫情期间使用VPN，导致绿码变红码是不是真的？VPS跟VPN就差一个字母有啥不一样？为什么开启VPN的手机开热点不具翻墙功能？为什么不建议使用VPN浏览过多政治敏感内容？VPN真的可以保护隐私吗？
 什么是VPN[1] ? VPN： 即虚拟专用网络(virtual private network)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。
 常见的应用有两种：正向代理和反向代理。
- 正向代理 即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。
+正向代理 即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。
 反向代理 用于保护服务器的私密和安全性，对于因特网用户来说只能看到代理服务器IP，无法获取服务器的真实IP。普遍应用在各大高校系统，企业远程办公等领域。此次疫情造成大量学校无法开学、企业 远程办公，留意观察网上常能看到关于校企VPN扩容的新闻。
 这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。
  这是因为现今普遍使用的定位方式[2]是通过sim卡IMSI(运营商基站) &#43; GPS &#43; WIFI &#43; IP 的多重定位方式。查阅高德地图Android 获取定位SDK[3]可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。
 另外感兴趣的可以点此连接🔗查看自己的IP定位结果(还挺准的是吧？)
- 长城防火墙。 翻墙一个绕不开的话题是Great firewall[4]。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。
+长城防火墙。 翻墙一个绕不开的话题是Great firewall[4]。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。
 VPN如何工作？ 我们来看张图
 这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。
 A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小王就是那个&#34;VPS&#34;。
-所以都需要什么?  1、一台不受Great Firewall影响的VPS。
+所以都需要什么? 1、一台不受Great Firewall影响的VPS。
 2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。
 首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。
 另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）
 VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。
 所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。
- 以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
+以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
 为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
 首先的威胁来自长城防火墙。
 脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。
@@ -33,7 +33,9 @@ VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同�
 用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。
 VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一个主机。网线电线、硬盘、维护这些都是有成本的。所以有的VPS会根据进出流量、使用时长或硬盘等等方式计费。如果是大型的VPN服务提供商做产品广告提供一些限制速度流量上限的免费线路可以理解（就算是GCP这样白送钱的也是要有门槛的吧。）但是为什么会有人自掏腰包舍己为人把这样本身违法的事儿硬生生办成了一门公益事业呢？往好了想，可能真是为了让每个人都能自由的访问互联网，那太伟大了，我敬是条汉子。往坏了想。。那咱就不知道了。 自建的VPN又如何呢？ 一个秘密知道的人越少就越安全。按照这个思路，可以思考一下自建实现科学上网的过程都有谁知道？
 首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：
-1 使用的软件'><title>聊聊VPN</title>
+1 使用的软件
+2 VPS服务器
+以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，软件都是开源的，问题不大。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。'><title>聊聊VPN</title>
 
 <link rel='canonical' href='https://log.tcosx.com/p/%E8%81%8A%E8%81%8Avpn/'>
 
@@ -46,22 +48,22 @@ VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一�
 还有最近：有人说疫情期间使用VPN，导致绿码变红码是不是真的？VPS跟VPN就差一个字母有啥不一样？为什么开启VPN的手机开热点不具翻墙功能？为什么不建议使用VPN浏览过多政治敏感内容？VPN真的可以保护隐私吗？
 什么是VPN[1] ? VPN： 即虚拟专用网络(virtual private network)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。
 常见的应用有两种：正向代理和反向代理。
- 正向代理 即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。
+正向代理 即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。
 反向代理 用于保护服务器的私密和安全性，对于因特网用户来说只能看到代理服务器IP，无法获取服务器的真实IP。普遍应用在各大高校系统，企业远程办公等领域。此次疫情造成大量学校无法开学、企业 远程办公，留意观察网上常能看到关于校企VPN扩容的新闻。
 这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。
  这是因为现今普遍使用的定位方式[2]是通过sim卡IMSI(运营商基站) &#43; GPS &#43; WIFI &#43; IP 的多重定位方式。查阅高德地图Android 获取定位SDK[3]可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。
 另外感兴趣的可以点此连接🔗查看自己的IP定位结果(还挺准的是吧？)
- 长城防火墙。 翻墙一个绕不开的话题是Great firewall[4]。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。
+长城防火墙。 翻墙一个绕不开的话题是Great firewall[4]。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。
 VPN如何工作？ 我们来看张图
 这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。
 A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小王就是那个&#34;VPS&#34;。
-所以都需要什么?  1、一台不受Great Firewall影响的VPS。
+所以都需要什么? 1、一台不受Great Firewall影响的VPS。
 2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。
 首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。
 另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）
 VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。
 所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。
- 以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
+以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
 为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
 首先的威胁来自长城防火墙。
 脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。
@@ -70,7 +72,9 @@ VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同�
 用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。
 VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一个主机。网线电线、硬盘、维护这些都是有成本的。所以有的VPS会根据进出流量、使用时长或硬盘等等方式计费。如果是大型的VPN服务提供商做产品广告提供一些限制速度流量上限的免费线路可以理解（就算是GCP这样白送钱的也是要有门槛的吧。）但是为什么会有人自掏腰包舍己为人把这样本身违法的事儿硬生生办成了一门公益事业呢？往好了想，可能真是为了让每个人都能自由的访问互联网，那太伟大了，我敬是条汉子。往坏了想。。那咱就不知道了。 自建的VPN又如何呢？ 一个秘密知道的人越少就越安全。按照这个思路，可以思考一下自建实现科学上网的过程都有谁知道？
 首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：
-1 使用的软件'>
+1 使用的软件
+2 VPS服务器
+以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，软件都是开源的，问题不大。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。'>
 <meta property='og:url' content='https://log.tcosx.com/p/%E8%81%8A%E8%81%8Avpn/'>
 <meta property='og:site_name' content='A Site'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2020-06-15T10:57:53&#43;08:00'/><meta property='article:modified_time' content='2020-06-15T10:57:53&#43;08:00'/><meta property='og:image' content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
@@ -83,22 +87,22 @@ VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一�
 还有最近：有人说疫情期间使用VPN，导致绿码变红码是不是真的？VPS跟VPN就差一个字母有啥不一样？为什么开启VPN的手机开热点不具翻墙功能？为什么不建议使用VPN浏览过多政治敏感内容？VPN真的可以保护隐私吗？
 什么是VPN[1] ? VPN： 即虚拟专用网络(virtual private network)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。
 常见的应用有两种：正向代理和反向代理。
- 正向代理 即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。
+正向代理 即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。
 反向代理 用于保护服务器的私密和安全性，对于因特网用户来说只能看到代理服务器IP，无法获取服务器的真实IP。普遍应用在各大高校系统，企业远程办公等领域。此次疫情造成大量学校无法开学、企业 远程办公，留意观察网上常能看到关于校企VPN扩容的新闻。
 这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。
  这是因为现今普遍使用的定位方式[2]是通过sim卡IMSI(运营商基站) &#43; GPS &#43; WIFI &#43; IP 的多重定位方式。查阅高德地图Android 获取定位SDK[3]可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。
 另外感兴趣的可以点此连接🔗查看自己的IP定位结果(还挺准的是吧？)
- 长城防火墙。 翻墙一个绕不开的话题是Great firewall[4]。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。
+长城防火墙。 翻墙一个绕不开的话题是Great firewall[4]。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。
 VPN如何工作？ 我们来看张图
 这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。
 A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小王就是那个&#34;VPS&#34;。
-所以都需要什么?  1、一台不受Great Firewall影响的VPS。
+所以都需要什么? 1、一台不受Great Firewall影响的VPS。
 2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。
 首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。
 另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）
 VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。
 所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。
- 以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
+以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
 为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
 首先的威胁来自长城防火墙。
 脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。
@@ -107,7 +111,9 @@ VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同�
 用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。
 VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一个主机。网线电线、硬盘、维护这些都是有成本的。所以有的VPS会根据进出流量、使用时长或硬盘等等方式计费。如果是大型的VPN服务提供商做产品广告提供一些限制速度流量上限的免费线路可以理解（就算是GCP这样白送钱的也是要有门槛的吧。）但是为什么会有人自掏腰包舍己为人把这样本身违法的事儿硬生生办成了一门公益事业呢？往好了想，可能真是为了让每个人都能自由的访问互联网，那太伟大了，我敬是条汉子。往坏了想。。那咱就不知道了。 自建的VPN又如何呢？ 一个秘密知道的人越少就越安全。按照这个思路，可以思考一下自建实现科学上网的过程都有谁知道？
 首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：
-1 使用的软件"><meta name="twitter:card" content="summary_large_image">
+1 使用的软件
+2 VPS服务器
+以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，软件都是开源的，问题不大。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
     </head>
     <body class="
@@ -349,7 +355,16 @@ VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一�
 <h3>VPN：</h3>
 <p>即<strong>虚拟专用网络(virtual private network</strong>)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。</p>
 <p>常见的应用有两种：正向代理和反向代理。</p>
-<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://r2kfpa.sn.files.1drv.com/y4mKkkCHq-H0J5_PrENyAwFMsD553mApf4Y3_rTc7FWnysbGJZzsMmXD2sHU2777kMJXJz211nsD3COKjRSUeoZAjJCi_JzUGVy1IgSoquzMFu2MoOefJJ114yvNP0LsXcx9O2vA4itX94w39rMwdnYFYQbk499suNe43_0u2j3O4pigNGH51W5CutvmR8ac7sGAgBEAMXYpRXI7ExxWAyzCQ?width=465&amp;height=230&amp;cropmode=none" alt="" width="386" height="191"/></figure></div>
+<p><img src="https://r2kfpa.sn.files.1drv.com/y4mKkkCHq-H0J5_PrENyAwFMsD553mApf4Y3_rTc7FWnysbGJZzsMmXD2sHU2777kMJXJz211nsD3COKjRSUeoZAjJCi_JzUGVy1IgSoquzMFu2MoOefJJ114yvNP0LsXcx9O2vA4itX94w39rMwdnYFYQbk499suNe43_0u2j3O4pigNGH51W5CutvmR8ac7sGAgBEAMXYpRXI7ExxWAyzCQ?width=465&amp;amp;height=230&amp;amp;cropmode=none"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
 <h4>正向代理</h4>
 <p>即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。</p>
 <h4>反向代理</h4>
@@ -357,25 +372,59 @@ VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一�
 <center><p class="has-medium-font-size"><strong>这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。</strong></p></center>
 <p>这是因为现今普遍使用的定位方式<em>[2]</em>是通过sim卡IMSI(运营商基站) + GPS + WIFI + IP 的<strong>多重定位</strong>方式。查阅高德地图Android 获取定位SDK<em>[3]</em>可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。</p>
 <p>另外感兴趣的可以<a rel="noreferrer noopener" href="https://www.opengps.cn/Data/IP/rtb.aspx" target="_blank">点此连接🔗</a>查看自己的IP定位结果(还挺准的是吧？)</p>
-<!-- wp:image {"align":"center","id":62,"width":591,"height":380,"sizeSlug":"large"} -->
-<figure class="aligncenter size-large is-resized" name="高德SDK"><img src="https://sat02pap002files.storage.live.com/y4ma_uZ4vAUMKwX3De7XaA976iZ7G1E2QKKEUw0QDb5TheNggEJjiBJgq7bWKfuFSQnwAmKkYnNYKpc2TeJdhO2cHcpudpbmAUdPdFOKQGAsUXsWJTa_q5x_UvTsAZ4hQaPYkvQScIvfVqYR7xHh4iVQHzvAhS-Lo0807MJDwrWqD0P7ZfaI0XFVRc062s0mZ0e?width=951&height=612&cropmode=none" alt="" class="wp-image-62" width="591" height="380"/></figure>
-<!-- /wp:image -->
+<p><img src="https://sat02pap002files.storage.live.com/y4ma_uZ4vAUMKwX3De7XaA976iZ7G1E2QKKEUw0QDb5TheNggEJjiBJgq7bWKfuFSQnwAmKkYnNYKpc2TeJdhO2cHcpudpbmAUdPdFOKQGAsUXsWJTa_q5x_UvTsAZ4hQaPYkvQScIvfVqYR7xHh4iVQHzvAhS-Lo0807MJDwrWqD0P7ZfaI0XFVRc062s0mZ0e?width=951&amp;height=612&amp;cropmode=none"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img0"
+	
+	
+></p>
 <h2>长城防火墙。</h2>
-<p>翻墙一个绕不开的话题是Great firewall<em>[4]</em>。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。</p>
+<p>翻墙一个绕不开的话题是Great firewall<sup>[4]</sup>。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。</p>
 <h2>VPN如何工作？</h2>
 <p>我们来看张图</p>
-<p class="has-text-align-center"><img width="521" height="413" src="https://r2kzpa.sn.files.1drv.com/y4mFaOGQIRTdOfstXwz919IeNaQxYK0xuvIzE1xV-AQoo5-n9O-83-4QdnQbIfFskHQt5XdolQJoW06fJEmzsvwJcW1xdbQ1RWA3Cixs5zuWHkk02Bt3EH2uNilULl1SMU1uJcCKnJGrkcXw7bVuFX75LZDtsJQolCpXGaSq1E29QucpuNlCQVvsvstPccIEjqGhDIbL5t4zhE-IkcUiTWLlA?width=521&amp;height=413&amp;cropmode=none"></p>
+<p><img src="https://r2kzpa.sn.files.1drv.com/y4mFaOGQIRTdOfstXwz919IeNaQxYK0xuvIzE1xV-AQoo5-n9O-83-4QdnQbIfFskHQt5XdolQJoW06fJEmzsvwJcW1xdbQ1RWA3Cixs5zuWHkk02Bt3EH2uNilULl1SMU1uJcCKnJGrkcXw7bVuFX75LZDtsJQolCpXGaSq1E29QucpuNlCQVvsvstPccIEjqGhDIbL5t4zhE-IkcUiTWLlA?width=521&amp;amp;height=413&amp;amp;cropmode=none"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
 <p>这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。</p>
 <p>A和小王的悄悄话就可近似抽象理解成是一个"VPN"。而小王就是那个"VPS"。</p>
 <h2>所以都需要什么?</h2>
-<div class="wp-block-image"><figure class="aligncenter"><img src="https://swiqbq.sn.files.1drv.com/y4mjlH0ezX6Cj16NbE_cVatGtUIpZ9C5ej3rQ5X1K7GwURvzfEyAUCQnw1_4W3NM8r4w9zhhaQ4_-kuVn85JNHvM3-eD6RQuebWmdWVP8KHLv-XTasH_dhj05LxIMdx5JLrb_xMIP0bjYRp-F2QdD0VJ4iHKH6733WsMjXI9B_SMXHx2orD1x9TWsPbmDTlz7F7EQhv_hsZEVava4h4w49kJA?width=1100&amp;height=371&amp;cropmode=none" alt=""/></figure></div>
+<p><img src="https://swiqbq.sn.files.1drv.com/y4mjlH0ezX6Cj16NbE_cVatGtUIpZ9C5ej3rQ5X1K7GwURvzfEyAUCQnw1_4W3NM8r4w9zhhaQ4_-kuVn85JNHvM3-eD6RQuebWmdWVP8KHLv-XTasH_dhj05LxIMdx5JLrb_xMIP0bjYRp-F2QdD0VJ4iHKH6733WsMjXI9B_SMXHx2orD1x9TWsPbmDTlz7F7EQhv_hsZEVava4h4w49kJA?width=1100&amp;amp;height=371&amp;amp;cropmode=none"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img0"
+	
+	
+></p>
 <p class="has-medium-font-size"><strong>1、一台不受Great Firewall影响的VPS。</strong></p>
 <p class="has-medium-font-size"><strong>2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。</strong></p>
 <p>首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。</p>
 <p>另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）</p>
-<p>VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。</p>
+<p>VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如<code>443</code>用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入<code>https://www.baidu.com:443</code>时等效<code>https://www.baidu.com</code>，但是如果把端口变成<code>80</code>或者<code>22</code>，往往就无法正常访问。</p>
 <p><strong>所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。</strong></p>
-<div class="wp-block-image"><figure class="aligncenter"><img src="https://rwizjg.sn.files.1drv.com/y4mtmSHV1cBr8rGIAv_zpjcrYcmWZb7gOIOQekxZ9Ejdhwg16BfLzyarHI2vfVaHhHM2s2thA7CQTk9KPZxI9h1tY1NXBLHS1-M9DjVc9tTI0CFV0IXSa9Hqd5LBRk0FC6v8bA0tkvGSQpx_lg7rlV4SRdMz6dXvaRYnDA3YAPbyndquFptupH1-eCCs7VUb9EcoXcEajgDIx3sdwMuGOYf4g?width=1920&amp;height=1080&amp;cropmode=none" alt=""/></figure></div>
+<p><img src="https://rwizjg.sn.files.1drv.com/y4mtmSHV1cBr8rGIAv_zpjcrYcmWZb7gOIOQekxZ9Ejdhwg16BfLzyarHI2vfVaHhHM2s2thA7CQTk9KPZxI9h1tY1NXBLHS1-M9DjVc9tTI0CFV0IXSa9Hqd5LBRk0FC6v8bA0tkvGSQpx_lg7rlV4SRdMz6dXvaRYnDA3YAPbyndquFptupH1-eCCs7VUb9EcoXcEajgDIx3sdwMuGOYf4g?width=1920&amp;amp;height=1080&amp;amp;cropmode=none"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img1"
+	
+	
+></p>
 <p>以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。</p>
 <h2>为什么经常被封？</h2>
 <h3>脆弱的环节：这条隧道。</h3>
@@ -393,11 +442,29 @@ VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一�
 <p>首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：</p>
 <p>1 使用的软件</p>
 <p>2 VPS服务器</p>
-<p>以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，能力有限也无从判断真伪。本着相信软件又开源又有那么多人使用的情况下赌它没问题。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。</p>
+<p>以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，软件都是开源的，问题不大。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。</p>
 <p>这里要说明的是现在的翻墙脚本都提供详细的日志在VPS上可供查询，细到具体的IP连接数量，访问了哪些网站，访问的时间等等，下面以SSR的客户端的日志做展示。</p>
-<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://swi1bq.sn.files.1drv.com/y4mnXdT1tUNRiRF1wlbFw8Ww4nHTYmjrO_ZnQ6svfR0UuPZVgrkJqM7xBQyFVnEstbZbkq6ewWs69oo42KRohvRaD0oJpdElZT6xoezBVY-XkLuuvdsfC5k9s_QNmSjwHzr64Z5No_pLJ09XATWLOQLUGiUdH57rH5iUddj6wiM6dlbqvST-_YlhYE27gyMBsg5qvJpBxxbhPRTv73U9kkB4w?width=2688&amp;height=946&amp;cropmode=none" alt="" width="576" height="203"/></figure></div>
+<p><img src="https://swi1bq.sn.files.1drv.com/y4mnXdT1tUNRiRF1wlbFw8Ww4nHTYmjrO_ZnQ6svfR0UuPZVgrkJqM7xBQyFVnEstbZbkq6ewWs69oo42KRohvRaD0oJpdElZT6xoezBVY-XkLuuvdsfC5k9s_QNmSjwHzr64Z5No_pLJ09XATWLOQLUGiUdH57rH5iUddj6wiM6dlbqvST-_YlhYE27gyMBsg5qvJpBxxbhPRTv73U9kkB4w?width=2688&amp;amp;height=946&amp;amp;cropmode=none"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
 <p>最后就是VPS本身了。VPS的供应商，会因服务商而异，也因所在地区具体法律政策而异。以Bandwagon Host的用户使用条款为例，</p>
-<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://swi4bq.sn.files.1drv.com/y4m9hrgNJFOWTvUwJYzrzRowI0Wv_zrdgRSQHhPShH52vvukDPWeIoDC-1rxZV0ImCCLhZlmSv4u5RdadJnXCZWW4ubZWnx49PevulwQLi26VSG7LKA9tbKbkpL6p77tP7eKXrbbEZfeM6M-3Y9YtH3kqPCeHhtbmNIUHme-QmW6LJwsHr5UnEyWRCgGEgqXT7X58Ct1SxbeX0VZvJjAC7NXA?width=1189&amp;height=469&amp;cropmode=none" alt="" width="584" height="230"/></figure></div>
+<p><img src="https://swi4bq.sn.files.1drv.com/y4m9hrgNJFOWTvUwJYzrzRowI0Wv_zrdgRSQHhPShH52vvukDPWeIoDC-1rxZV0ImCCLhZlmSv4u5RdadJnXCZWW4ubZWnx49PevulwQLi26VSG7LKA9tbKbkpL6p77tP7eKXrbbEZfeM6M-3Y9YtH3kqPCeHhtbmNIUHme-QmW6LJwsHr5UnEyWRCgGEgqXT7X58Ct1SxbeX0VZvJjAC7NXA?width=1189&amp;amp;height=469&amp;amp;cropmode=none"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
 <p>其中并没有提及对服务器数据的使用，只提到了如若数据丢失不承担责任。</p>
 <p>另外涉及VPS购买者本人信息的，条款中写明了有两种情况会向第三方提供</p>
 <p>1是用于IP申请。</p>
@@ -405,7 +472,16 @@ VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一�
 <p>其余情况除非法律要求，不然不会分享你的信息给第三方。</p>
 <h3>网警"钓鱼执法"的问题。</h3>
 <p>早有人讨论说某些VPN软件是警方的钓鱼工具，下载使用就可以抓到人blabla。。对这个我保留意见。就像我上面说的，直接执法都没难度为啥要钓鱼执法？网警咋这么有闲心？其实我也挺想知道为什么网警有更有效简单的方式却选择线下抓人。难不成是为了杀鸡儆猴？</p>
-<div class="wp-block-image"><figure class="aligncenter"><img src="https://smizjg.sn.files.1drv.com/y4mdY63SW_fAnS4mvAP0TaNZI5i4kx0S-aVdFEo3yIH2VlqjXrkT0ek_Wg7RzGWYATr62FXhqvO_MtW_Tx83G8DhhihmWIQ77jUmwTRugSKHAy0jhvPURaSDqxvbUCrt4K73M3gzBO4S3qSYE32mCGtUcjaFEk_qeJMNOJjkaV3LaitUAFMVhqQEJGgGvk4ng1pJx50P4s2VRklAyNe-0sTwg?width=512&amp;height=320&amp;cropmode=none" alt=""/></figure></div>
+<p><img src="https://smizjg.sn.files.1drv.com/y4mdY63SW_fAnS4mvAP0TaNZI5i4kx0S-aVdFEo3yIH2VlqjXrkT0ek_Wg7RzGWYATr62FXhqvO_MtW_Tx83G8DhhihmWIQ77jUmwTRugSKHAy0jhvPURaSDqxvbUCrt4K73M3gzBO4S3qSYE32mCGtUcjaFEk_qeJMNOJjkaV3LaitUAFMVhqQEJGgGvk4ng1pJx50P4s2VRklAyNe-0sTwg?width=512&amp;amp;height=320&amp;amp;cropmode=none"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
 <p>我认为正常低调地使用网络被查水表的概率是很低的，这和"当我是个废物的时候就没什么人想要利用我了"是一个道理，当他们费尽周章查到我的地址账号信息，结果发现我只是看了两集小猪佩奇，我猜他们也会挺懊恼的。对付我这样的人使用防火墙例行升级就行了，完全没必要1V1对线。</p>
 <p>我的意思是千万千万不要渴望跟网警对线。这是19年夏天纽约时报香港的一个新闻：</p>
 <h2 id="写在最后">写在最后：</h2>
