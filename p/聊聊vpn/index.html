@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='聊聊VPN 写在前面：
+因法律政策原因，本文不涉及任何VPN搭建和具体实现。
+仅作为个人肤浅且零碎知识的整理，如有错误，欢迎指正。
+互联网不是法外之地，请谨言慎行。
+你有过好奇吗？ 这个很新奇却每当提及只能用&amp;quot;梯子&amp;quot;、&amp;ldquo;扶墙&amp;rdquo;、&amp;ldquo;科学上网&amp;quot;之类代号来呼唤的东西，到底是个啥？使用VPN犯法吗？
+还有最近：有人说疫情期间使用VPN，导致绿码变红码是不是真的？VPS跟VPN就差一个字母有啥不一样？为什么开启VPN的手机开热点不具翻墙功能？为什么不建议使用VPN浏览过多政治敏感内容？VPN真的可以保护隐私吗？
+什么是VPN[1] ? VPN： 即虚拟专用网络(virtual private network)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。
+常见的应用有两种：正向代理和反向代理。
+ 正向代理 即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。
+反向代理 用于保护服务器的私密和安全性，对于因特网用户来说只能看到代理服务器IP，无法获取服务器的真实IP。普遍应用在各大高校系统，企业远程办公等领域。此次疫情造成大量学校无法开学、企业 远程办公，留意观察网上常能看到关于校企VPN扩容的新闻。
+这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。
+ 这是因为现今普遍使用的定位方式[2]是通过sim卡IMSI(运营商基站) &#43; GPS &#43; WIFI &#43; IP 的多重定位方式。查阅高德地图Android 获取定位SDK[3]可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。
+另外感兴趣的可以点此连接🔗查看自己的IP定位结果(还挺准的是吧？)
+ 长城防火墙。 翻墙一个绕不开的话题是Great firewall[4]。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。
+VPN如何工作？ 我们来看张图
+这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。
+A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小王就是那个&#34;VPS&#34;。
+所以都需要什么?  1、一台不受Great Firewall影响的VPS。
+2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。
+首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。
+另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）
+VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。
+所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。
+ 以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
+那有没有什么办法可以共享呢？
+前提条件是被共享的设备和共享的设备处于同一子网，使用局域网内（比如同一WIFI，但实测不支持手机开热点同时分享VPN（可能是iOS的问题））可以让数据先到达应用层再通过局域网进行转发（比如使用HTTP协议），以ShadowRocket为例，在先点击&#34;设置&#34;-&amp;gt;&#34;代理共享&#34;
+ 打开&#34;启用共享&#34;。再用获得的局域网IP和端口对共享设备进行HTTP代理设置即能实现共享。这时数据的加密和解密是通过手机app进行的。（软路由原理类似）
+ 为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
+首先的威胁来自长城防火墙。
+脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。
+还有一些因素也能决定隧道的稳定性，比如VPS机房的位置，运营商和线路的选择。比如选择电信还是联通？163还是CN2 GIA？不同线路的表现均有差距。还和终端(比如手机)的算力有关，使用越复杂的加密方式对就对算力有更高的要求。总之很多原因都会造成使用VPN体验不佳，甚至无法连接。
+其实这本身是一件很复杂的事情，但是各种一键搭建脚本现在在网络上随处可见。正因为这样，我不认为它能实现所谓的真正私密。你我能搜到的，我不信网安部门的人搜不到。就算再伪装到最后也是要走三大运营商的骨干网的。现今中国的网络安全领域是走在世界前列的，曾经甚至因为DNS污染还影响过中国大陆以外的用户上网。现在仍会在每年在几个重要的时间节点进行&#34;大规模扫荡&#34;。我认为防火墙尚留薄面的原因也是如此，它对于封禁非法VPN的力度强弱是周期循环的，而非一直增强的。其完全有能力全年如一日，可是好像并没有。
+用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。'><title>聊聊VPN</title>
+
+<link rel='canonical' href='https://log.tcosx.com/p/%E8%81%8A%E8%81%8Avpn/'>
+
+<link rel="stylesheet" href="/scss/style.min.caf479ed4bbc6f3fe88299213007bddf2acfe8ad9b59bb78b0db3e4ef69fddef.css"><meta property='og:title' content='聊聊VPN'>
+<meta property='og:description' content='聊聊VPN 写在前面：
+因法律政策原因，本文不涉及任何VPN搭建和具体实现。
+仅作为个人肤浅且零碎知识的整理，如有错误，欢迎指正。
+互联网不是法外之地，请谨言慎行。
+你有过好奇吗？ 这个很新奇却每当提及只能用&amp;quot;梯子&amp;quot;、&amp;ldquo;扶墙&amp;rdquo;、&amp;ldquo;科学上网&amp;quot;之类代号来呼唤的东西，到底是个啥？使用VPN犯法吗？
+还有最近：有人说疫情期间使用VPN，导致绿码变红码是不是真的？VPS跟VPN就差一个字母有啥不一样？为什么开启VPN的手机开热点不具翻墙功能？为什么不建议使用VPN浏览过多政治敏感内容？VPN真的可以保护隐私吗？
+什么是VPN[1] ? VPN： 即虚拟专用网络(virtual private network)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。
+常见的应用有两种：正向代理和反向代理。
+ 正向代理 即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。
+反向代理 用于保护服务器的私密和安全性，对于因特网用户来说只能看到代理服务器IP，无法获取服务器的真实IP。普遍应用在各大高校系统，企业远程办公等领域。此次疫情造成大量学校无法开学、企业 远程办公，留意观察网上常能看到关于校企VPN扩容的新闻。
+这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。
+ 这是因为现今普遍使用的定位方式[2]是通过sim卡IMSI(运营商基站) &#43; GPS &#43; WIFI &#43; IP 的多重定位方式。查阅高德地图Android 获取定位SDK[3]可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。
+另外感兴趣的可以点此连接🔗查看自己的IP定位结果(还挺准的是吧？)
+ 长城防火墙。 翻墙一个绕不开的话题是Great firewall[4]。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。
+VPN如何工作？ 我们来看张图
+这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。
+A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小王就是那个&#34;VPS&#34;。
+所以都需要什么?  1、一台不受Great Firewall影响的VPS。
+2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。
+首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。
+另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）
+VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。
+所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。
+ 以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
+那有没有什么办法可以共享呢？
+前提条件是被共享的设备和共享的设备处于同一子网，使用局域网内（比如同一WIFI，但实测不支持手机开热点同时分享VPN（可能是iOS的问题））可以让数据先到达应用层再通过局域网进行转发（比如使用HTTP协议），以ShadowRocket为例，在先点击&#34;设置&#34;-&amp;gt;&#34;代理共享&#34;
+ 打开&#34;启用共享&#34;。再用获得的局域网IP和端口对共享设备进行HTTP代理设置即能实现共享。这时数据的加密和解密是通过手机app进行的。（软路由原理类似）
+ 为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
+首先的威胁来自长城防火墙。
+脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。
+还有一些因素也能决定隧道的稳定性，比如VPS机房的位置，运营商和线路的选择。比如选择电信还是联通？163还是CN2 GIA？不同线路的表现均有差距。还和终端(比如手机)的算力有关，使用越复杂的加密方式对就对算力有更高的要求。总之很多原因都会造成使用VPN体验不佳，甚至无法连接。
+其实这本身是一件很复杂的事情，但是各种一键搭建脚本现在在网络上随处可见。正因为这样，我不认为它能实现所谓的真正私密。你我能搜到的，我不信网安部门的人搜不到。就算再伪装到最后也是要走三大运营商的骨干网的。现今中国的网络安全领域是走在世界前列的，曾经甚至因为DNS污染还影响过中国大陆以外的用户上网。现在仍会在每年在几个重要的时间节点进行&#34;大规模扫荡&#34;。我认为防火墙尚留薄面的原因也是如此，它对于封禁非法VPN的力度强弱是周期循环的，而非一直增强的。其完全有能力全年如一日，可是好像并没有。
+用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。'>
+<meta property='og:url' content='https://log.tcosx.com/p/%E8%81%8A%E8%81%8Avpn/'>
+<meta property='og:site_name' content='A Site'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2020-06-15T10:57:53&#43;08:00'/><meta property='article:modified_time' content='2020-06-15T10:57:53&#43;08:00'/><meta property='og:image' content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
+<meta name="twitter:title" content="聊聊VPN">
+<meta name="twitter:description" content="聊聊VPN 写在前面：
+因法律政策原因，本文不涉及任何VPN搭建和具体实现。
+仅作为个人肤浅且零碎知识的整理，如有错误，欢迎指正。
+互联网不是法外之地，请谨言慎行。
+你有过好奇吗？ 这个很新奇却每当提及只能用&amp;quot;梯子&amp;quot;、&amp;ldquo;扶墙&amp;rdquo;、&amp;ldquo;科学上网&amp;quot;之类代号来呼唤的东西，到底是个啥？使用VPN犯法吗？
+还有最近：有人说疫情期间使用VPN，导致绿码变红码是不是真的？VPS跟VPN就差一个字母有啥不一样？为什么开启VPN的手机开热点不具翻墙功能？为什么不建议使用VPN浏览过多政治敏感内容？VPN真的可以保护隐私吗？
+什么是VPN[1] ? VPN： 即虚拟专用网络(virtual private network)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。
+常见的应用有两种：正向代理和反向代理。
+ 正向代理 即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。
+反向代理 用于保护服务器的私密和安全性，对于因特网用户来说只能看到代理服务器IP，无法获取服务器的真实IP。普遍应用在各大高校系统，企业远程办公等领域。此次疫情造成大量学校无法开学、企业 远程办公，留意观察网上常能看到关于校企VPN扩容的新闻。
+这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。
+ 这是因为现今普遍使用的定位方式[2]是通过sim卡IMSI(运营商基站) &#43; GPS &#43; WIFI &#43; IP 的多重定位方式。查阅高德地图Android 获取定位SDK[3]可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。
+另外感兴趣的可以点此连接🔗查看自己的IP定位结果(还挺准的是吧？)
+ 长城防火墙。 翻墙一个绕不开的话题是Great firewall[4]。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。
+VPN如何工作？ 我们来看张图
+这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。
+A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小王就是那个&#34;VPS&#34;。
+所以都需要什么?  1、一台不受Great Firewall影响的VPS。
+2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。
+首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。
+另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）
+VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。
+所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。
+ 以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。
+那有没有什么办法可以共享呢？
+前提条件是被共享的设备和共享的设备处于同一子网，使用局域网内（比如同一WIFI，但实测不支持手机开热点同时分享VPN（可能是iOS的问题））可以让数据先到达应用层再通过局域网进行转发（比如使用HTTP协议），以ShadowRocket为例，在先点击&#34;设置&#34;-&amp;gt;&#34;代理共享&#34;
+ 打开&#34;启用共享&#34;。再用获得的局域网IP和端口对共享设备进行HTTP代理设置即能实现共享。这时数据的加密和解密是通过手机app进行的。（软路由原理类似）
+ 为什么经常被封？ 脆弱的环节：这条隧道。 我国法律规定未经许可访问国际网络属于违法行为。
+首先的威胁来自长城防火墙。
+脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。
+还有一些因素也能决定隧道的稳定性，比如VPS机房的位置，运营商和线路的选择。比如选择电信还是联通？163还是CN2 GIA？不同线路的表现均有差距。还和终端(比如手机)的算力有关，使用越复杂的加密方式对就对算力有更高的要求。总之很多原因都会造成使用VPN体验不佳，甚至无法连接。
+其实这本身是一件很复杂的事情，但是各种一键搭建脚本现在在网络上随处可见。正因为这样，我不认为它能实现所谓的真正私密。你我能搜到的，我不信网安部门的人搜不到。就算再伪装到最后也是要走三大运营商的骨干网的。现今中国的网络安全领域是走在世界前列的，曾经甚至因为DNS污染还影响过中国大陆以外的用户上网。现在仍会在每年在几个重要的时间节点进行&#34;大规模扫荡&#34;。我认为防火墙尚留薄面的原因也是如此，它对于封禁非法VPN的力度强弱是周期循环的，而非一直增强的。其完全有能力全年如一日，可是好像并没有。
+用了VPN就安全吗？ 免费VPN的隐患。 我认为免费VPN有隐患的一个重要原因是背后的成本问题。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "auto");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&amp;height=149&amp;cropmode=none" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🎲</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">A Site</a></h1>
+            <h2 class="site-description">Is there a lucky guy waiting for u at the end of this crusade?</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://drive.tcosx.com/'
+                        target="_blank"
+                        title="OneManager"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/onemanager/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+                
+                <span>OneManager</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://log.tcosx.com/" selected>English</option>
+                        
+                            <option value="https://log.tcosx.com/cn/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E8%81%8A%E8%81%8Avpn/">聊聊VPN</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 15, 2020</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="聊聊vpn">聊聊VPN</h1>
+<p class="has-medium-font-size"><strong>写在前面：</strong></p>
+<p>因法律政策原因，本文不涉及任何VPN搭建和具体实现。</p>
+<p>仅作为个人肤浅且零碎知识的整理，如有错误，欢迎指正。</p>
+<p>互联网不是法外之地，请谨言慎行。</p>
+<h2 id="你有过好奇吗">你有过好奇吗？</h2>
+<p>这个很新奇却每当提及只能用&quot;梯子&quot;、&ldquo;扶墙&rdquo;、&ldquo;科学上网&quot;之类代号来呼唤的东西，到底是个啥？使用VPN犯法吗？</p>
+<p>还有最近：有人说疫情期间使用VPN，导致绿码变红码是不是真的？VPS跟VPN就差一个字母有啥不一样？为什么开启VPN的手机开热点不具翻墙功能？为什么不建议使用VPN浏览过多政治敏感内容？VPN真的可以保护隐私吗？</p>
+<h2 id="什么是vpnsup1sup-">什么是VPN<sup>[1]</sup> ?</h2>
+<h3>VPN：</h3>
+<p>即<strong>虚拟专用网络(virtual private network</strong>)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。</p>
+<p>常见的应用有两种：正向代理和反向代理。</p>
+<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://r2kfpa.sn.files.1drv.com/y4mKkkCHq-H0J5_PrENyAwFMsD553mApf4Y3_rTc7FWnysbGJZzsMmXD2sHU2777kMJXJz211nsD3COKjRSUeoZAjJCi_JzUGVy1IgSoquzMFu2MoOefJJ114yvNP0LsXcx9O2vA4itX94w39rMwdnYFYQbk499suNe43_0u2j3O4pigNGH51W5CutvmR8ac7sGAgBEAMXYpRXI7ExxWAyzCQ?width=465&amp;height=230&amp;cropmode=none" alt="" width="386" height="191"/></figure></div>
+<h4>正向代理</h4>
+<p>即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。</p>
+<h4>反向代理</h4>
+<p>用于保护服务器的私密和安全性，对于因特网用户来说只能看到代理服务器IP，无法获取服务器的真实IP。普遍应用在各大高校系统，企业远程办公等领域。此次疫情造成大量学校无法开学、企业 远程办公，留意观察网上常能看到关于校企VPN扩容的新闻。</p>
+<center><p class="has-medium-font-size"><strong>这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。</strong></p></center>
+<p>这是因为现今普遍使用的定位方式<em>[2]</em>是通过sim卡IMSI(运营商基站) + GPS + WIFI + IP 的<strong>多重定位</strong>方式。查阅高德地图Android 获取定位SDK<em>[3]</em>可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。</p>
+<p>另外感兴趣的可以<a rel="noreferrer noopener" href="https://www.opengps.cn/Data/IP/rtb.aspx" target="_blank">点此连接🔗</a>查看自己的IP定位结果(还挺准的是吧？)</p>
+<!-- wp:image {"align":"center","id":62,"width":591,"height":380,"sizeSlug":"large"} -->
+<figure class="aligncenter size-large is-resized" name="高德SDK"><img src="https://sat02pap002files.storage.live.com/y4ma_uZ4vAUMKwX3De7XaA976iZ7G1E2QKKEUw0QDb5TheNggEJjiBJgq7bWKfuFSQnwAmKkYnNYKpc2TeJdhO2cHcpudpbmAUdPdFOKQGAsUXsWJTa_q5x_UvTsAZ4hQaPYkvQScIvfVqYR7xHh4iVQHzvAhS-Lo0807MJDwrWqD0P7ZfaI0XFVRc062s0mZ0e?width=951&height=612&cropmode=none" alt="" class="wp-image-62" width="591" height="380"/></figure>
+<!-- /wp:image -->
+<h2>长城防火墙。</h2>
+<p>翻墙一个绕不开的话题是Great firewall<em>[4]</em>。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。</p>
+<h2>VPN如何工作？</h2>
+<p>我们来看张图</p>
+<p class="has-text-align-center"><img width="521" height="413" src="https://r2kzpa.sn.files.1drv.com/y4mFaOGQIRTdOfstXwz919IeNaQxYK0xuvIzE1xV-AQoo5-n9O-83-4QdnQbIfFskHQt5XdolQJoW06fJEmzsvwJcW1xdbQ1RWA3Cixs5zuWHkk02Bt3EH2uNilULl1SMU1uJcCKnJGrkcXw7bVuFX75LZDtsJQolCpXGaSq1E29QucpuNlCQVvsvstPccIEjqGhDIbL5t4zhE-IkcUiTWLlA?width=521&amp;height=413&amp;cropmode=none"></p>
+<p>这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。</p>
+<p>A和小王的悄悄话就可近似抽象理解成是一个"VPN"。而小王就是那个"VPS"。</p>
+<h2>所以都需要什么?</h2>
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://swiqbq.sn.files.1drv.com/y4mjlH0ezX6Cj16NbE_cVatGtUIpZ9C5ej3rQ5X1K7GwURvzfEyAUCQnw1_4W3NM8r4w9zhhaQ4_-kuVn85JNHvM3-eD6RQuebWmdWVP8KHLv-XTasH_dhj05LxIMdx5JLrb_xMIP0bjYRp-F2QdD0VJ4iHKH6733WsMjXI9B_SMXHx2orD1x9TWsPbmDTlz7F7EQhv_hsZEVava4h4w49kJA?width=1100&amp;height=371&amp;cropmode=none" alt=""/></figure></div>
+<p class="has-medium-font-size"><strong>1、一台不受Great Firewall影响的VPS。</strong></p>
+<p class="has-medium-font-size"><strong>2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。</strong></p>
+<p>首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。</p>
+<p>另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）</p>
+<p>VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。</p>
+<p><strong>所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。</strong></p>
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://rwizjg.sn.files.1drv.com/y4mtmSHV1cBr8rGIAv_zpjcrYcmWZb7gOIOQekxZ9Ejdhwg16BfLzyarHI2vfVaHhHM2s2thA7CQTk9KPZxI9h1tY1NXBLHS1-M9DjVc9tTI0CFV0IXSa9Hqd5LBRk0FC6v8bA0tkvGSQpx_lg7rlV4SRdMz6dXvaRYnDA3YAPbyndquFptupH1-eCCs7VUb9EcoXcEajgDIx3sdwMuGOYf4g?width=1920&amp;height=1080&amp;cropmode=none" alt=""/></figure></div>
+<p>以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。</p>
+<p><strong>那有没有什么办法可以共享呢？</strong></p>
+<p>前提条件是被共享的设备和共享的设备处于同一子网，使用局域网内（比如同一WIFI，但实测不支持手机开热点同时分享VPN（可能是iOS的问题））可以让数据先到达应用层再通过局域网进行转发（比如使用HTTP协议），以ShadowRocket为例，在先点击"设置"-&gt;"代理共享"</p>
+<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://rwivjg.sn.files.1drv.com/y4m07dycd7k21DUVuSegx0TiY7RF5i0kSkXDkAlXb-SPmt4-Nw--RNvg5669htFMZwAmpOOmk15_a_qrgeA_CBV5D4oioOgob5vmybl38OJecPLcfrWazJSCWlC7QSFNy_IXUztwrrLekheHBHkzyWDLVX_GTz6QVCh71A2j73aoKov8BnErd-DW_O1XkSwzB4M6D8apYkjBSLu6a2og1CLDw?width=1242&amp;height=2688&amp;cropmode=none" alt="" width="234" height="505"/></figure></div>
+<p>打开"启用共享"。再用获得的局域网IP和端口对共享设备进行HTTP代理设置即能实现共享。这时数据的加密和解密是通过手机app进行的。（软路由原理类似）</p>
+<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://rwisjg.sn.files.1drv.com/y4m8WY4vp_xuDOCggRWKM96SdwIT0JW8f8V_9YVWukdtpGqHMvwb2Lp6lRXM6cWQB3pHQG4vCMB28sGVzH7sGlYvjiIf6_LgeCXMQeG3Oej7COd6ZznHfK-VCFD2-xk7BIsaEUKA7SPxhz0VtbkzRpGawiNORmdmVBy75v15MG9nLPGqZRpESYHYqf9Q-0G0JF649e2HVpHzNABjCeIL1cLXw?width=1242&amp;height=2688&amp;cropmode=none" alt="" width="231" height="497"/></figure></div>
+<h2>为什么经常被封？</h2>
+<h3>脆弱的环节：这条隧道。</h3>
+<p>我国法律规定未经许可访问国际网络属于违法行为。</p>
+<p>首先的威胁来自长城防火墙。</p>
+<p>脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。</p>
+<p>还有一些因素也能决定隧道的稳定性，比如VPS机房的位置，运营商和线路的选择。比如选择电信还是联通？163还是CN2 GIA？不同线路的表现均有差距。还和终端(比如手机)的算力有关，使用越复杂的加密方式对就对算力有更高的要求。总之很多原因都会造成使用VPN体验不佳，甚至无法连接。</p>
+<p>其实这本身是一件很复杂的事情，但是各种一键搭建脚本现在在网络上随处可见。正因为这样，我不认为它能实现所谓的真正私密。你我能搜到的，我不信网安部门的人搜不到。就算再伪装到最后也是要走三大运营商的骨干网的。现今中国的网络安全领域是走在世界前列的，曾经甚至因为DNS污染还影响过中国大陆以外的用户上网。现在仍会在每年在几个重要的时间节点进行"大规模扫荡"。我认为防火墙尚留薄面的原因也是如此，它对于封禁非法VPN的力度强弱是周期循环的，而非一直增强的。其完全有能力全年如一日，可是好像并没有。</p>
+<h2>用了VPN就安全吗？</h2>
+<h3>免费VPN的隐患。</h3>
+<p>我认为免费VPN有隐患的一个重要原因是背后的成本问题。</p>
+<p>VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一个主机。网线电线、硬盘、维护这些都是有成本的。所以有的VPS会根据进出流量、使用时长或硬盘等等方式计费。如果是大型的VPN服务提供商做产品广告提供一些限制速度流量上限的免费线路可以理解（就算是GCP这样白送钱的也是要有门槛的吧。）但是为什么会有人自掏腰包舍己为人把这样本身违法的事儿硬生生办成了一门公益事业呢？往好了想，可能真是为了让每个人都能自由的访问互联网，那太伟大了，我敬是条汉子。往坏了想。。那咱就不知道了。 </p>
+<h3>自建的VPN又如何呢？</h3>
+<p>一个秘密知道的人越少就越安全。按照这个思路，可以思考一下自建实现科学上网的过程都有谁知道？</p>
+<p>首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：</p>
+<p>1 使用的软件</p>
+<p>2 VPS服务器 </p>
+<p>以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，能力有限也无从判断真伪。本着相信软件又开源又有那么多人使用的情况下赌它没问题。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。</p>
+<p>这里要说明的是现在的翻墙脚本都提供详细的日志在VPS上可供查询，细到具体的IP连接数量，访问了哪些网站，访问的时间等等，下面以SSR的客户端的日志做展示。</p>
+<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://swi1bq.sn.files.1drv.com/y4mnXdT1tUNRiRF1wlbFw8Ww4nHTYmjrO_ZnQ6svfR0UuPZVgrkJqM7xBQyFVnEstbZbkq6ewWs69oo42KRohvRaD0oJpdElZT6xoezBVY-XkLuuvdsfC5k9s_QNmSjwHzr64Z5No_pLJ09XATWLOQLUGiUdH57rH5iUddj6wiM6dlbqvST-_YlhYE27gyMBsg5qvJpBxxbhPRTv73U9kkB4w?width=2688&amp;height=946&amp;cropmode=none" alt="" width="576" height="203"/></figure></div>
+<p>最后就是VPS本身了。VPS的供应商，会因服务商而异，也因所在地区具体法律政策而异。以Bandwagon Host的用户使用条款为例，</p>
+<div class="wp-block-image"><figure class="aligncenter is-resized"><img src="https://swi4bq.sn.files.1drv.com/y4m9hrgNJFOWTvUwJYzrzRowI0Wv_zrdgRSQHhPShH52vvukDPWeIoDC-1rxZV0ImCCLhZlmSv4u5RdadJnXCZWW4ubZWnx49PevulwQLi26VSG7LKA9tbKbkpL6p77tP7eKXrbbEZfeM6M-3Y9YtH3kqPCeHhtbmNIUHme-QmW6LJwsHr5UnEyWRCgGEgqXT7X58Ct1SxbeX0VZvJjAC7NXA?width=1189&amp;height=469&amp;cropmode=none" alt="" width="584" height="230"/></figure></div>
+<p>其中并没有提及对服务器数据的使用，只提到了如若数据丢失不保。</p>
+<p>另外涉及VPS购买者本人信息的，条款中写明了有两种情况会向第三方提供</p>
+<p>1是用于IP申请。</p>
+<p>2向支付服务提供商(Alipay PayPal等)用于验证付款方式和订单记录。</p>
+<p>其余情况除非法律要求，不然不会分享你的信息给第三方。</p>
+<h3>网警"钓鱼执法"的问题。</h3>
+<p>早有人讨论说某些VPN软件是警方的钓鱼工具，下载使用就可以抓到人blabla。。对这个我保留意见。就像我上面说的，直接执法都没难度为啥要钓鱼执法？网警咋这么有闲心？其实我也挺想知道为什么网警有更有效简单的方式却选择线下抓人。难不成是为了杀鸡儆猴？</p>
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://smizjg.sn.files.1drv.com/y4mdY63SW_fAnS4mvAP0TaNZI5i4kx0S-aVdFEo3yIH2VlqjXrkT0ek_Wg7RzGWYATr62FXhqvO_MtW_Tx83G8DhhihmWIQ77jUmwTRugSKHAy0jhvPURaSDqxvbUCrt4K73M3gzBO4S3qSYE32mCGtUcjaFEk_qeJMNOJjkaV3LaitUAFMVhqQEJGgGvk4ng1pJx50P4s2VRklAyNe-0sTwg?width=512&amp;height=320&amp;cropmode=none" alt=""/></figure></div>
+<p>我认为正常低调地使用网络被查水表的概率是很低的，这和"当我是个废物的时候就没什么人想要利用我了"是一个道理，当他们费尽周章查到我的地址账号信息，结果发现我只是看了两集小猪佩奇，我猜他们也会挺懊恼的。对付我这样的人使用防火墙例行升级就行了，完全没必要1V1对线。</p>
+<p>我的意思是千万千万不要渴望跟网警对线。这是19年夏天纽约时报香港的一个新闻：</p>
+<!-- wp:image {"id":245,"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img src="https://tk.cosc.me/wp-content/uploads/2020/06/image-12.png" alt="" class="wp-image-245"/></figure>
+<!-- /wp:image -->
+<!-- wp:image {"id":244,"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img src="https://tk.cosc.me/wp-content/uploads/2020/06/image-11.png" alt="" class="wp-image-244"/></figure>
+<!-- /wp:image -->
+<h2 id="写在最后">写在最后：</h2>
+<p><strong>全文已经结束。以下仅为个人看法，若有不同观点一定是你对，关掉网页就好了。</strong></p>
+<p>关于防火墙利弊的讨论从它出现的那天起就一直争议不断。"防火墙之父"方滨兴本人在公众平台也受到过辱骂，甚至曾遭人扔过鸡蛋。</p>
+<p><strong>这不是一币两面的事儿</strong></p>
+<p>你说它是坏的，但它确实给中国的互联网企业一片沃土，孕育出了像阿里，腾讯字节跳动这样改变中国影响世界的公司，不至于像欧洲被逼无奈拿出数字税抗衡美国的数字霸权，我们有更大的主动权。但你说它是好的，它令它的喜恶为你的喜恶，替你挡了很多垃圾的同时，也让你丧失了很多看到这个世界本来面目的机会。很多选择的权利。</p>
+<p>我认为所谓选择的权力是允许我浏览完ABCD后选A，而不是只有一个A的情况下做选择。（那不是骗人么）</p>
+<p><strong>你觉得片面的事实是不是事实？</strong></p>
+<p>客观是一个模糊到近乎不存在的概念，比如，当摄影记者在现场决定"拍什么"，或者不拍什么的时候，他已经有了无数个主观判断。影像只是他的作品。</p>
+<p><strong>中国人美国人爱国的人。</strong></p>
+<p>我讨厌大字报一样的口号标语。我的爱国情怀是通过偶尔发生在身边让我触动或愤慨的经历，和远在天边的人对中国这样那样的看法中相互交织融合、慢慢建立起来的。中国人是人，美国人也是人，每个人都是人。我会因为看到武汉解封的那一天人们录的短视频由衷地开心，会因为在podcast听到美国的一位护士因为疫情工作没有见到母亲最后一面而替她遗憾。我不觉得疫情期间歧视武汉人的那些人和美国歧视有色人种的人有什么本质区别。不管是在哪的人，首先都要是个人。</p>
+<p>就这样吧。</p>
+<p><strong>愿世界永远和平。</strong></p>
+<p>参考内容</p>
+<p>[1]	<a class="link" href="https://en.wikipedia.org/wiki/Virtual_private_network"  target="_blank" rel="noopener"
+    >Virtual private network - wikipedia</a></p>
+<p>[2]	<em>Permanent record</em> 	Edward Snowden</p>
+<p>[3]	<a class="link" href="https://lbs.amap.com/api/android-location-sdk/guide/android-location/getlocation#androidmanifest"  target="_blank" rel="noopener"
+    >高德定位SDK - Android</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 A Site
+    </section>
+    
+    <section class="powerby">
+        
+            Coding &nbsp with &nbsp  ❤️ <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.10.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#你有过好奇吗">你有过好奇吗？</a></li>
+    <li><a href="#什么是vpnsup1sup-">什么是VPN<sup>[1]</sup> ?</a></li>
+    <li><a href="#写在最后">写在最后：</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

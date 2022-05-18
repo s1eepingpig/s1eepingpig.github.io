@@ -6,7 +6,84 @@
         <description>Recent content in Posts on A Site</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 13 Mar 2022 15:55:30 +0800</lastBuildDate><atom:link href="https://log.tcosx.com/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 18 May 2022 08:13:16 +0800</lastBuildDate><atom:link href="https://log.tcosx.com/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>RepVGG: Making VGG-style ConvNets Great Again</title>
+        <link>https://log.tcosx.com/p/repvgg-making-vgg-style-convnets-great-again/</link>
+        <pubDate>Wed, 18 May 2022 08:13:16 +0800</pubDate>
+        
+        <guid>https://log.tcosx.com/p/repvgg-making-vgg-style-convnets-great-again/</guid>
+        <description>&lt;p&gt;夜不能白熬，整理一下课程汇报的资料。&lt;/p&gt;
+&lt;p&gt;模型提出了一种使用重参数化方法把多分支的残差网络整理合并成单路架构的网络结构，并达到了SOTA性能。&lt;/p&gt;
+&lt;h2 id=&#34;模型特点&#34;&gt;模型特点&lt;/h2&gt;
+&lt;h3 id=&#34;vgg-style&#34;&gt;VGG-style&lt;/h3&gt;
+&lt;p&gt;文中所指的VGG风格，其实是指：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;模型部署时的结构具有和VGG模型一样的拓扑结构，没有多分支，并且在同一stage中输出和输入同维。&lt;/li&gt;
+&lt;li&gt;模型主体仅使用3*3卷积+ReLU。&lt;/li&gt;
+&lt;li&gt;架构没有使用像神经结构搜索（Neural Architecture Search）、注意力机制之类的技巧。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;repreparameterization&#34;&gt;&amp;ldquo;Rep&amp;rdquo;——reparameterization&lt;/h3&gt;
+&lt;p&gt;重参数化是指使用参数转换，把一种模型转化为另外一种模型。套壳（bushi&lt;/p&gt;
+&lt;p&gt;比如，我们使用VGG16网络时，训练时的参数和推理时的参数是一致的。
+$$
+D\times C\times K \times K \Rightarrow D\times C\times K \times K
+$$
+但在RepVGG中，使用多分支的参数并通过形式转化和相加的方式，使之变成形式上等价的参数形式。
+$$
+[(D\times C\times 1 \times K)+
+(D\times C\times K \times 1)+
+(D\times C\times K \times K)
+] \Rightarrow D\times C\times K \times K
+$$
+RepVGG的优点：&lt;/p&gt;
+&lt;p&gt;Fast：&lt;/p&gt;
+&lt;p&gt;作者使用理论上的计算量/时间，发现 3 * 3 卷积的计算密度是最高的。得益于NVIDIA cuDNN和intel MKL对 3 * 3 卷积的优化，加上作者使用了Winograd卷积，使模型在计算时并行效率高，计算速度快。&lt;/p&gt;
+&lt;p&gt;Memory-economical：&lt;/p&gt;
+&lt;p&gt;训练模型所需的内存少，多分支结构是一种内存低效的架构，这是因为每个分支的结构都需要在Add/Concat之前保存，这会导致更大的峰值内存占用；而普通单分支模型则具有更好的内存高效性能。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Flexible&lt;/strong&gt;： 多分支结构会限制CNN的灵活性，比如ResBlock会约束两个分支的tensor具有相同的形状维度，多分支结构对于模型剪枝也不够友好。&lt;/p&gt;
+&lt;h2 id=&#34;模型搭建&#34;&gt;模型搭建&lt;/h2&gt;
+&lt;p&gt;模型搭建的重点是在重参数化，即多分支训练单分支部署。这要保证二者参数形式上一致。&lt;/p&gt;
+&lt;p&gt;转化的过程主要有两个步骤：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一是BN层与卷积层的融合&lt;/li&gt;
+&lt;li&gt;二是不同分支的卷积层化为同维度之后相加&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;卷积层和BN层融合的过程是通过将卷积公式代入BN公式，重新整理完成的。&lt;/p&gt;
+&lt;p&gt;卷积层之间的相加，&lt;/p&gt;
+&lt;p&gt;3 * 3卷积通过padding1层保证输出维度不变。&lt;/p&gt;
+&lt;p&gt;1 * 1卷积走过的路径其实和3 * 3卷积在原图padding一层之后，中间位置走过的路径是一致的。&lt;/p&gt;
+&lt;p&gt;至于identity恒等映射，是通过把非当前通道的所有channel置0的方式，得到当前channel一样的输出。&lt;/p&gt;
+&lt;h3 id=&#34;消融实验有效性验证&#34;&gt;消融实验有效性验证&lt;/h3&gt;
+&lt;p&gt;所有模型都从头开始训练了 120 个 epoch上面描述的简单训练设置。首先，我们进行通过去除同一性和/或 1×1 分支进行消融研究来自 RepVGG-B0 的每个块。随着两个分支的移除，训练时的模型退化为原始单路模型，&lt;/p&gt;
+&lt;p&gt;仅达到 72.39% 的准确率。准确率提高到 73.15% 加了1 × 1 或 74.79% 与identity。&lt;/p&gt;
+&lt;p&gt;全功能RepVGG-B0的准确率为75.14%，&lt;/p&gt;
+&lt;p&gt;加了identity比plain高了2.4%&lt;/p&gt;
+&lt;p&gt;加了1*1比原始高了0.76%&lt;/p&gt;
+&lt;p&gt;比普通普通款高出2.75%。&lt;/p&gt;
+&lt;p&gt;另外作者提到，如果推理时使用训练模型得到的效果和重参数化后的模型完全一样，但是时间消耗增加30%左右。&lt;/p&gt;
+&lt;h2 id=&#34;实验结果&#34;&gt;实验结果&lt;/h2&gt;
+&lt;p&gt;在1080Ti上测试，RepVGG模型的速度-精度相当出色。在公平的训练设定下，同精度的RepVGG速度是ResNet-50的183%，ResNet-101的201%。注意，RepVGG取得超过EfficientNet和RegNet的性能并没有使用任何的NAS或繁重的人工迭代设计。&lt;/p&gt;
+&lt;p&gt;最后需要注明的是，RepVGG是为GPU和专用硬件设计的高效模型，追求高速度、省内存，较少关注参数量和理论计算量。在低算力设备上，可能不如MobileNet和ShuffleNet系列适用。&lt;/p&gt;
+&lt;p&gt;另外作者也展望了与大卷积核相结合之后的效益。重参数化引入其实为很多创新预留了空间&lt;/p&gt;
+&lt;p&gt;对于参数量的基本原则：作者认为大力出奇迹，参数量多就是好，模型大就是猛，比如搭配大卷积核进行重参数化效果会更好。而且实验表明，数据集越小，模型越小，重参数化越重要&lt;/p&gt;
+&lt;p&gt;convNext和vision Transformer 超大卷积核的效应。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Reference:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/344324470&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;RepVGG：极简架构，SOTA性能，让VGG式模型再次伟大（CVPR-2021） - 知乎 (zhihu.com)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/lipoicyclic/p/16051143.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;深度网络重参数化 - 脂环 - 博客园 (cnblogs.com)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.51cto.com/u_15457455/4802419&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;RepVGG：极简架构，SOTA性能，让VGG式模型再次伟大_wx61b56d7a20700的技术博客_51CTO博客&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/shuimuqingyang/p/14472515.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;大道至简！深度解读CVPR2021论文RepVGG - 水木清扬 - 博客园 (cnblogs.com)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://arxiv.org/abs/2101.03697&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;2101.03697] RepVGG: Making VGG-style ConvNets Great Again (arxiv.org)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.nvidia.com/deeplearning/performance/dl-performance-convolutional/index.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Convolutional Layers User&amp;rsquo;s Guide :: NVIDIA Deep Learning Performance Documentation&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>ShiroConfig</title>
         <link>https://log.tcosx.com/p/shiroconfig/</link>
         <pubDate>Sun, 13 Mar 2022 15:55:30 +0800</pubDate>
@@ -192,6 +269,114 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>聊聊VPN</title>
+        <link>https://log.tcosx.com/p/%E8%81%8A%E8%81%8Avpn/</link>
+        <pubDate>Mon, 15 Jun 2020 10:57:53 +0800</pubDate>
+        
+        <guid>https://log.tcosx.com/p/%E8%81%8A%E8%81%8Avpn/</guid>
+        <description>&lt;h1 id=&#34;聊聊vpn&#34;&gt;聊聊VPN&lt;/h1&gt;
+&lt;p class=&#34;has-medium-font-size&#34;&gt;&lt;strong&gt;写在前面：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;因法律政策原因，本文不涉及任何VPN搭建和具体实现。&lt;/p&gt;
+&lt;p&gt;仅作为个人肤浅且零碎知识的整理，如有错误，欢迎指正。&lt;/p&gt;
+&lt;p&gt;互联网不是法外之地，请谨言慎行。&lt;/p&gt;
+&lt;h2 id=&#34;你有过好奇吗&#34;&gt;你有过好奇吗？&lt;/h2&gt;
+&lt;p&gt;这个很新奇却每当提及只能用&amp;quot;梯子&amp;quot;、&amp;ldquo;扶墙&amp;rdquo;、&amp;ldquo;科学上网&amp;quot;之类代号来呼唤的东西，到底是个啥？使用VPN犯法吗？&lt;/p&gt;
+&lt;p&gt;还有最近：有人说疫情期间使用VPN，导致绿码变红码是不是真的？VPS跟VPN就差一个字母有啥不一样？为什么开启VPN的手机开热点不具翻墙功能？为什么不建议使用VPN浏览过多政治敏感内容？VPN真的可以保护隐私吗？&lt;/p&gt;
+&lt;h2 id=&#34;什么是vpnsup1sup-&#34;&gt;什么是VPN&lt;sup&gt;[1]&lt;/sup&gt; ?&lt;/h2&gt;
+&lt;h3&gt;VPN：&lt;/h3&gt;
+&lt;p&gt;即&lt;strong&gt;虚拟专用网络(virtual private network&lt;/strong&gt;)是指在互联网上建立加密隧道模拟通信专线，使服务器之间的访问像在专用网络中一样。&lt;/p&gt;
+&lt;p&gt;常见的应用有两种：正向代理和反向代理。&lt;/p&gt;
+&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter is-resized&#34;&gt;&lt;img src=&#34;https://r2kfpa.sn.files.1drv.com/y4mKkkCHq-H0J5_PrENyAwFMsD553mApf4Y3_rTc7FWnysbGJZzsMmXD2sHU2777kMJXJz211nsD3COKjRSUeoZAjJCi_JzUGVy1IgSoquzMFu2MoOefJJ114yvNP0LsXcx9O2vA4itX94w39rMwdnYFYQbk499suNe43_0u2j3O4pigNGH51W5CutvmR8ac7sGAgBEAMXYpRXI7ExxWAyzCQ?width=465&amp;amp;height=230&amp;amp;cropmode=none&#34; alt=&#34;&#34; width=&#34;386&#34; height=&#34;191&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;h4&gt;正向代理&lt;/h4&gt;
+&lt;p&gt;即让用户通过代理服务器访问互联网，对于互联网来说只能看到代理服务器IP，内部真实用户是不可见的。用于保护访问者的隐私。因为可以实现代理翻越长城防火墙而广为人知。&lt;/p&gt;
+&lt;h4&gt;反向代理&lt;/h4&gt;
+&lt;p&gt;用于保护服务器的私密和安全性，对于因特网用户来说只能看到代理服务器IP，无法获取服务器的真实IP。普遍应用在各大高校系统，企业远程办公等领域。此次疫情造成大量学校无法开学、企业 远程办公，留意观察网上常能看到关于校企VPN扩容的新闻。&lt;/p&gt;
+&lt;center&gt;&lt;p class=&#34;has-medium-font-size&#34;&gt;&lt;strong&gt;这里要说明的是：使用全局代理后虽然对外展示的是代理服务器IP，但并不会出现所谓“绿码变红”的问题。&lt;/strong&gt;&lt;/p&gt;&lt;/center&gt;
+&lt;p&gt;这是因为现今普遍使用的定位方式&lt;em&gt;[2]&lt;/em&gt;是通过sim卡IMSI(运营商基站) + GPS + WIFI + IP 的&lt;strong&gt;多重定位&lt;/strong&gt;方式。查阅高德地图Android 获取定位SDK&lt;em&gt;[3]&lt;/em&gt;可作参考。实际使用中并不会仅因为IP归属地的漂移而产生定位偏差。实测在开启飞行模式下仅打开GPS亦能获得当前位置信息，可知IP地址不为获取位置的第一凭证。&lt;/p&gt;
+&lt;p&gt;另外感兴趣的可以&lt;a rel=&#34;noreferrer noopener&#34; href=&#34;https://www.opengps.cn/Data/IP/rtb.aspx&#34; target=&#34;_blank&#34;&gt;点此连接🔗&lt;/a&gt;查看自己的IP定位结果(还挺准的是吧？)&lt;/p&gt;
+&lt;!-- wp:image {&#34;align&#34;:&#34;center&#34;,&#34;id&#34;:62,&#34;width&#34;:591,&#34;height&#34;:380,&#34;sizeSlug&#34;:&#34;large&#34;} --&gt;
+&lt;figure class=&#34;aligncenter size-large is-resized&#34; name=&#34;高德SDK&#34;&gt;&lt;img src=&#34;https://sat02pap002files.storage.live.com/y4ma_uZ4vAUMKwX3De7XaA976iZ7G1E2QKKEUw0QDb5TheNggEJjiBJgq7bWKfuFSQnwAmKkYnNYKpc2TeJdhO2cHcpudpbmAUdPdFOKQGAsUXsWJTa_q5x_UvTsAZ4hQaPYkvQScIvfVqYR7xHh4iVQHzvAhS-Lo0807MJDwrWqD0P7ZfaI0XFVRc062s0mZ0e?width=951&amp;height=612&amp;cropmode=none&#34; alt=&#34;&#34; class=&#34;wp-image-62&#34; width=&#34;591&#34; height=&#34;380&#34;/&gt;&lt;/figure&gt;
+&lt;!-- /wp:image --&gt;
+&lt;h2&gt;长城防火墙。&lt;/h2&gt;
+&lt;p&gt;翻墙一个绕不开的话题是Great firewall&lt;em&gt;[4]&lt;/em&gt;。简单理解防火墙是通过各种手段方式比如DNS污染，关键字屏蔽等等，让你的不合法请求得不到响应的东西。除有合法VPN使用权的机构和企业外，中国大陆IP访问网络几乎都受到长城防火墙限制，包括大陆的VPS(Virtual private server)。所以翻墙的VPS一般选用香港台湾或海外服务器提供商。私自搭建和使用VPN访问国际互联网是违法行为，以获利为目的的可追究刑事责任。&lt;/p&gt;
+&lt;h2&gt;VPN如何工作？&lt;/h2&gt;
+&lt;p&gt;我们来看张图&lt;/p&gt;
+&lt;p class=&#34;has-text-align-center&#34;&gt;&lt;img width=&#34;521&#34; height=&#34;413&#34; src=&#34;https://r2kzpa.sn.files.1drv.com/y4mFaOGQIRTdOfstXwz919IeNaQxYK0xuvIzE1xV-AQoo5-n9O-83-4QdnQbIfFskHQt5XdolQJoW06fJEmzsvwJcW1xdbQ1RWA3Cixs5zuWHkk02Bt3EH2uNilULl1SMU1uJcCKnJGrkcXw7bVuFX75LZDtsJQolCpXGaSq1E29QucpuNlCQVvsvstPccIEjqGhDIbL5t4zhE-IkcUiTWLlA?width=521&amp;amp;height=413&amp;amp;cropmode=none&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这个通过吸管(某种加密协议隧道)由一个中转服务器喝到椰汁(访问网络)的过程就是一个使用VPN的不太严谨的实例。这位帮忙喝椰汁的女士就可以理解为VPS。VPN则架设在你和她之间。再举个例子，A悄悄告诉小王去商店帮忙买一把砍刀，小王收到A的请求后去商店买回并把其送到A手里。商店只知道小王买了什么东西而不知道A的存在。&lt;/p&gt;
+&lt;p&gt;A和小王的悄悄话就可近似抽象理解成是一个&#34;VPN&#34;。而小王就是那个&#34;VPS&#34;。&lt;/p&gt;
+&lt;h2&gt;所以都需要什么?&lt;/h2&gt;
+&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter&#34;&gt;&lt;img src=&#34;https://swiqbq.sn.files.1drv.com/y4mjlH0ezX6Cj16NbE_cVatGtUIpZ9C5ej3rQ5X1K7GwURvzfEyAUCQnw1_4W3NM8r4w9zhhaQ4_-kuVn85JNHvM3-eD6RQuebWmdWVP8KHLv-XTasH_dhj05LxIMdx5JLrb_xMIP0bjYRp-F2QdD0VJ4iHKH6733WsMjXI9B_SMXHx2orD1x9TWsPbmDTlz7F7EQhv_hsZEVava4h4w49kJA?width=1100&amp;amp;height=371&amp;amp;cropmode=none&#34; alt=&#34;&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p class=&#34;has-medium-font-size&#34;&gt;&lt;strong&gt;1、一台不受Great Firewall影响的VPS。&lt;/strong&gt;&lt;/p&gt;
+&lt;p class=&#34;has-medium-font-size&#34;&gt;&lt;strong&gt;2、选择一个脚本软件用于数据加密传输。并安装好客户端和服务端。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先要有一个不受管制的虚拟服务器。用来实现对Google的访问。&lt;/p&gt;
+&lt;p&gt;另外就是选择一个加密软件用于服务器流量数据的转发（诸如SSR，SS，V2ray），工作原理基本是在本地客户端和虚拟服务器端分别建立监听于指定端口的进程。再从该端口发送和接收数据并进行加密和解密。（你下载软件本身也会监听于本地的特定端口，实现局域网内VPN的共享也是依赖于此）&lt;/p&gt;
+&lt;p&gt;VPN的端口可以任意选择。若把VPS比作一栋楼，端口就是不同的房间号。端口有很多，比如443用作https端口，80用作http端口，22用作ssh端口等。比如访问百度时默认使用的就是443端口，所以输入https://www.baidu.com:443时等效https://www.baidu.com，但是如果把端口变成80或者22，往往就无法正常访问。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;所以到这就可以解释为什么手机开了VPN而手机热点不具翻墙功能。&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter&#34;&gt;&lt;img src=&#34;https://rwizjg.sn.files.1drv.com/y4mtmSHV1cBr8rGIAv_zpjcrYcmWZb7gOIOQekxZ9Ejdhwg16BfLzyarHI2vfVaHhHM2s2thA7CQTk9KPZxI9h1tY1NXBLHS1-M9DjVc9tTI0CFV0IXSa9Hqd5LBRk0FC6v8bA0tkvGSQpx_lg7rlV4SRdMz6dXvaRYnDA3YAPbyndquFptupH1-eCCs7VUb9EcoXcEajgDIx3sdwMuGOYf4g?width=1920&amp;amp;height=1080&amp;amp;cropmode=none&#34; alt=&#34;&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;以TCP/IP结构为例，翻墙工具的加密和解密执行在应用应用层，而使用手机分享热点，是通过网络接口层直接进行共享，因此分享出的热点不具备翻墙功能。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;那有没有什么办法可以共享呢？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;前提条件是被共享的设备和共享的设备处于同一子网，使用局域网内（比如同一WIFI，但实测不支持手机开热点同时分享VPN（可能是iOS的问题））可以让数据先到达应用层再通过局域网进行转发（比如使用HTTP协议），以ShadowRocket为例，在先点击&#34;设置&#34;-&amp;gt;&#34;代理共享&#34;&lt;/p&gt;
+&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter is-resized&#34;&gt;&lt;img src=&#34;https://rwivjg.sn.files.1drv.com/y4m07dycd7k21DUVuSegx0TiY7RF5i0kSkXDkAlXb-SPmt4-Nw--RNvg5669htFMZwAmpOOmk15_a_qrgeA_CBV5D4oioOgob5vmybl38OJecPLcfrWazJSCWlC7QSFNy_IXUztwrrLekheHBHkzyWDLVX_GTz6QVCh71A2j73aoKov8BnErd-DW_O1XkSwzB4M6D8apYkjBSLu6a2og1CLDw?width=1242&amp;amp;height=2688&amp;amp;cropmode=none&#34; alt=&#34;&#34; width=&#34;234&#34; height=&#34;505&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;打开&#34;启用共享&#34;。再用获得的局域网IP和端口对共享设备进行HTTP代理设置即能实现共享。这时数据的加密和解密是通过手机app进行的。（软路由原理类似）&lt;/p&gt;
+&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter is-resized&#34;&gt;&lt;img src=&#34;https://rwisjg.sn.files.1drv.com/y4m8WY4vp_xuDOCggRWKM96SdwIT0JW8f8V_9YVWukdtpGqHMvwb2Lp6lRXM6cWQB3pHQG4vCMB28sGVzH7sGlYvjiIf6_LgeCXMQeG3Oej7COd6ZznHfK-VCFD2-xk7BIsaEUKA7SPxhz0VtbkzRpGawiNORmdmVBy75v15MG9nLPGqZRpESYHYqf9Q-0G0JF649e2HVpHzNABjCeIL1cLXw?width=1242&amp;amp;height=2688&amp;amp;cropmode=none&#34; alt=&#34;&#34; width=&#34;231&#34; height=&#34;497&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;h2&gt;为什么经常被封？&lt;/h2&gt;
+&lt;h3&gt;脆弱的环节：这条隧道。&lt;/h3&gt;
+&lt;p&gt;我国法律规定未经许可访问国际网络属于违法行为。&lt;/p&gt;
+&lt;p&gt;首先的威胁来自长城防火墙。&lt;/p&gt;
+&lt;p&gt;脚本通过把流量伪装成正常网页访问、种子下载、视频聊天等等进行伪装。无论使用什么加密方式，目的都是为了让这条隧道变得隐蔽，不被防火墙识别。一旦被识别，它就会用各种方式阻断用户和服务器的连接。&lt;/p&gt;
+&lt;p&gt;还有一些因素也能决定隧道的稳定性，比如VPS机房的位置，运营商和线路的选择。比如选择电信还是联通？163还是CN2 GIA？不同线路的表现均有差距。还和终端(比如手机)的算力有关，使用越复杂的加密方式对就对算力有更高的要求。总之很多原因都会造成使用VPN体验不佳，甚至无法连接。&lt;/p&gt;
+&lt;p&gt;其实这本身是一件很复杂的事情，但是各种一键搭建脚本现在在网络上随处可见。正因为这样，我不认为它能实现所谓的真正私密。你我能搜到的，我不信网安部门的人搜不到。就算再伪装到最后也是要走三大运营商的骨干网的。现今中国的网络安全领域是走在世界前列的，曾经甚至因为DNS污染还影响过中国大陆以外的用户上网。现在仍会在每年在几个重要的时间节点进行&#34;大规模扫荡&#34;。我认为防火墙尚留薄面的原因也是如此，它对于封禁非法VPN的力度强弱是周期循环的，而非一直增强的。其完全有能力全年如一日，可是好像并没有。&lt;/p&gt;
+&lt;h2&gt;用了VPN就安全吗？&lt;/h2&gt;
+&lt;h3&gt;免费VPN的隐患。&lt;/h3&gt;
+&lt;p&gt;我认为免费VPN有隐患的一个重要原因是背后的成本问题。&lt;/p&gt;
+&lt;p&gt;VPN基于VPS搭建，可没有哪个服务商会白送VPS。VPS本质也是一个主机。网线电线、硬盘、维护这些都是有成本的。所以有的VPS会根据进出流量、使用时长或硬盘等等方式计费。如果是大型的VPN服务提供商做产品广告提供一些限制速度流量上限的免费线路可以理解（就算是GCP这样白送钱的也是要有门槛的吧。）但是为什么会有人自掏腰包舍己为人把这样本身违法的事儿硬生生办成了一门公益事业呢？往好了想，可能真是为了让每个人都能自由的访问互联网，那太伟大了，我敬是条汉子。往坏了想。。那咱就不知道了。 &lt;/p&gt;
+&lt;h3&gt;自建的VPN又如何呢？&lt;/h3&gt;
+&lt;p&gt;一个秘密知道的人越少就越安全。按照这个思路，可以思考一下自建实现科学上网的过程都有谁知道？&lt;/p&gt;
+&lt;p&gt;首先防火墙层面不做考虑，因为没法考虑[摊手]。那还剩下：&lt;/p&gt;
+&lt;p&gt;1 使用的软件&lt;/p&gt;
+&lt;p&gt;2 VPS服务器 &lt;/p&gt;
+&lt;p&gt;以用户端软件来说，每过一段时间就会有人站出来说某版本的SSR之类软件有后门问题，能力有限也无从判断真伪。本着相信软件又开源又有那么多人使用的情况下赌它没问题。另外要真是不放心可以通过服务器端检查连接到服务器的IP、连接次数、以及流量使用等，可一定程度避免程序后门问题。&lt;/p&gt;
+&lt;p&gt;这里要说明的是现在的翻墙脚本都提供详细的日志在VPS上可供查询，细到具体的IP连接数量，访问了哪些网站，访问的时间等等，下面以SSR的客户端的日志做展示。&lt;/p&gt;
+&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter is-resized&#34;&gt;&lt;img src=&#34;https://swi1bq.sn.files.1drv.com/y4mnXdT1tUNRiRF1wlbFw8Ww4nHTYmjrO_ZnQ6svfR0UuPZVgrkJqM7xBQyFVnEstbZbkq6ewWs69oo42KRohvRaD0oJpdElZT6xoezBVY-XkLuuvdsfC5k9s_QNmSjwHzr64Z5No_pLJ09XATWLOQLUGiUdH57rH5iUddj6wiM6dlbqvST-_YlhYE27gyMBsg5qvJpBxxbhPRTv73U9kkB4w?width=2688&amp;amp;height=946&amp;amp;cropmode=none&#34; alt=&#34;&#34; width=&#34;576&#34; height=&#34;203&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;最后就是VPS本身了。VPS的供应商，会因服务商而异，也因所在地区具体法律政策而异。以Bandwagon Host的用户使用条款为例，&lt;/p&gt;
+&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter is-resized&#34;&gt;&lt;img src=&#34;https://swi4bq.sn.files.1drv.com/y4m9hrgNJFOWTvUwJYzrzRowI0Wv_zrdgRSQHhPShH52vvukDPWeIoDC-1rxZV0ImCCLhZlmSv4u5RdadJnXCZWW4ubZWnx49PevulwQLi26VSG7LKA9tbKbkpL6p77tP7eKXrbbEZfeM6M-3Y9YtH3kqPCeHhtbmNIUHme-QmW6LJwsHr5UnEyWRCgGEgqXT7X58Ct1SxbeX0VZvJjAC7NXA?width=1189&amp;amp;height=469&amp;amp;cropmode=none&#34; alt=&#34;&#34; width=&#34;584&#34; height=&#34;230&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;其中并没有提及对服务器数据的使用，只提到了如若数据丢失不保。&lt;/p&gt;
+&lt;p&gt;另外涉及VPS购买者本人信息的，条款中写明了有两种情况会向第三方提供&lt;/p&gt;
+&lt;p&gt;1是用于IP申请。&lt;/p&gt;
+&lt;p&gt;2向支付服务提供商(Alipay PayPal等)用于验证付款方式和订单记录。&lt;/p&gt;
+&lt;p&gt;其余情况除非法律要求，不然不会分享你的信息给第三方。&lt;/p&gt;
+&lt;h3&gt;网警&#34;钓鱼执法&#34;的问题。&lt;/h3&gt;
+&lt;p&gt;早有人讨论说某些VPN软件是警方的钓鱼工具，下载使用就可以抓到人blabla。。对这个我保留意见。就像我上面说的，直接执法都没难度为啥要钓鱼执法？网警咋这么有闲心？其实我也挺想知道为什么网警有更有效简单的方式却选择线下抓人。难不成是为了杀鸡儆猴？&lt;/p&gt;
+&lt;div class=&#34;wp-block-image&#34;&gt;&lt;figure class=&#34;aligncenter&#34;&gt;&lt;img src=&#34;https://smizjg.sn.files.1drv.com/y4mdY63SW_fAnS4mvAP0TaNZI5i4kx0S-aVdFEo3yIH2VlqjXrkT0ek_Wg7RzGWYATr62FXhqvO_MtW_Tx83G8DhhihmWIQ77jUmwTRugSKHAy0jhvPURaSDqxvbUCrt4K73M3gzBO4S3qSYE32mCGtUcjaFEk_qeJMNOJjkaV3LaitUAFMVhqQEJGgGvk4ng1pJx50P4s2VRklAyNe-0sTwg?width=512&amp;amp;height=320&amp;amp;cropmode=none&#34; alt=&#34;&#34;/&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;p&gt;我认为正常低调地使用网络被查水表的概率是很低的，这和&#34;当我是个废物的时候就没什么人想要利用我了&#34;是一个道理，当他们费尽周章查到我的地址账号信息，结果发现我只是看了两集小猪佩奇，我猜他们也会挺懊恼的。对付我这样的人使用防火墙例行升级就行了，完全没必要1V1对线。&lt;/p&gt;
+&lt;p&gt;我的意思是千万千万不要渴望跟网警对线。这是19年夏天纽约时报香港的一个新闻：&lt;/p&gt;
+&lt;!-- wp:image {&#34;id&#34;:245,&#34;sizeSlug&#34;:&#34;large&#34;} --&gt;
+&lt;figure class=&#34;wp-block-image size-large&#34;&gt;&lt;img src=&#34;https://tk.cosc.me/wp-content/uploads/2020/06/image-12.png&#34; alt=&#34;&#34; class=&#34;wp-image-245&#34;/&gt;&lt;/figure&gt;
+&lt;!-- /wp:image --&gt;
+&lt;!-- wp:image {&#34;id&#34;:244,&#34;sizeSlug&#34;:&#34;large&#34;} --&gt;
+&lt;figure class=&#34;wp-block-image size-large&#34;&gt;&lt;img src=&#34;https://tk.cosc.me/wp-content/uploads/2020/06/image-11.png&#34; alt=&#34;&#34; class=&#34;wp-image-244&#34;/&gt;&lt;/figure&gt;
+&lt;!-- /wp:image --&gt;
+&lt;h2 id=&#34;写在最后&#34;&gt;写在最后：&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;全文已经结束。以下仅为个人看法，若有不同观点一定是你对，关掉网页就好了。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;关于防火墙利弊的讨论从它出现的那天起就一直争议不断。&#34;防火墙之父&#34;方滨兴本人在公众平台也受到过辱骂，甚至曾遭人扔过鸡蛋。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;这不是一币两面的事儿&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;你说它是坏的，但它确实给中国的互联网企业一片沃土，孕育出了像阿里，腾讯字节跳动这样改变中国影响世界的公司，不至于像欧洲被逼无奈拿出数字税抗衡美国的数字霸权，我们有更大的主动权。但你说它是好的，它令它的喜恶为你的喜恶，替你挡了很多垃圾的同时，也让你丧失了很多看到这个世界本来面目的机会。很多选择的权利。&lt;/p&gt;
+&lt;p&gt;我认为所谓选择的权力是允许我浏览完ABCD后选A，而不是只有一个A的情况下做选择。（那不是骗人么）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;你觉得片面的事实是不是事实？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;客观是一个模糊到近乎不存在的概念，比如，当摄影记者在现场决定&#34;拍什么&#34;，或者不拍什么的时候，他已经有了无数个主观判断。影像只是他的作品。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;中国人美国人爱国的人。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我讨厌大字报一样的口号标语。我的爱国情怀是通过偶尔发生在身边让我触动或愤慨的经历，和远在天边的人对中国这样那样的看法中相互交织融合、慢慢建立起来的。中国人是人，美国人也是人，每个人都是人。我会因为看到武汉解封的那一天人们录的短视频由衷地开心，会因为在podcast听到美国的一位护士因为疫情工作没有见到母亲最后一面而替她遗憾。我不觉得疫情期间歧视武汉人的那些人和美国歧视有色人种的人有什么本质区别。不管是在哪的人，首先都要是个人。&lt;/p&gt;
+&lt;p&gt;就这样吧。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;愿世界永远和平。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;参考内容&lt;/p&gt;
+&lt;p&gt;[1]	&lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Virtual_private_network&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Virtual private network - wikipedia&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2]	&lt;em&gt;Permanent record&lt;/em&gt; 	Edward Snowden&lt;/p&gt;
+&lt;p&gt;[3]	&lt;a class=&#34;link&#34; href=&#34;https://lbs.amap.com/api/android-location-sdk/guide/android-location/getlocation#androidmanifest&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;高德定位SDK - Android&lt;/a&gt;&lt;/p&gt;
+</description>
         </item>
         <item>
         <title>Markdown Syntax Guide</title>

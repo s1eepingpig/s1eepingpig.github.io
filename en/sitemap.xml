@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://log.tcosx.com/</loc>
-    <lastmod>2022-03-13T15:55:30+08:00</lastmod>
+    <lastmod>2022-05-18T08:13:16+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://log.tcosx.com/post/</loc>
-    <lastmod>2022-03-13T15:55:30+08:00</lastmod>
+    <lastmod>2022-05-18T08:13:16+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
@@ -27,6 +27,9 @@
                 hreflang="en"
                 href="https://log.tcosx.com/post/"
                 />
+  </url><url>
+    <loc>https://log.tcosx.com/p/repvgg-making-vgg-style-convnets-great-again/</loc>
+    <lastmod>2022-05-18T08:13:16+08:00</lastmod>
   </url><url>
     <loc>https://log.tcosx.com/tags/shiro/</loc>
     <lastmod>2022-03-13T15:55:30+08:00</lastmod>
@@ -49,6 +52,9 @@
                 hreflang="en"
                 href="https://log.tcosx.com/tags/"
                 />
+  </url><url>
+    <loc>https://log.tcosx.com/p/%E8%81%8A%E8%81%8Avpn/</loc>
+    <lastmod>2020-06-15T10:57:53+08:00</lastmod>
   </url><url>
     <loc>https://log.tcosx.com/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>

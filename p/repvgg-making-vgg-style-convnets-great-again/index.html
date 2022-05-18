@@ -1,17 +1,44 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='A brief guide to setup KaTeX'><title>Math Typesetting</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='夜不能白熬，整理一下课程汇报的资料。
+模型提出了一种使用重参数化方法把多分支的残差网络整理合并成单路架构的网络结构，并达到了SOTA性能。
+模型特点 VGG-style 文中所指的VGG风格，其实是指：
+ 模型部署时的结构具有和VGG模型一样的拓扑结构，没有多分支，并且在同一stage中输出和输入同维。 模型主体仅使用3*3卷积&#43;ReLU。 架构没有使用像神经结构搜索（Neural Architecture Search）、注意力机制之类的技巧。  &amp;ldquo;Rep&amp;rdquo;——reparameterization 重参数化是指使用参数转换，把一种模型转化为另外一种模型。套壳（bushi
+比如，我们使用VGG16网络时，训练时的参数和推理时的参数是一致的。 $$ D\times C\times K \times K \Rightarrow D\times C\times K \times K $$ 但在RepVGG中，使用多分支的参数并通过形式转化和相加的方式，使之变成形式上等价的参数形式。 $$ [(D\times C\times 1 \times K)&#43; (D\times C\times K \times 1)&#43; (D\times C\times K \times K) ] \Rightarrow D\times C\times K \times K $$ RepVGG的优点：
+Fast：
+作者使用理论上的计算量/时间，发现 3 * 3 卷积的计算密度是最高的。得益于NVIDIA cuDNN和intel MKL对 3 * 3 卷积的优化，加上作者使用了Winograd卷积，使模型在计算时并行效率高，计算速度快。
+Memory-economical：
+训练模型所需的内存少，多分支结构是一种内存低效的架构，这是因为每个分支的结构都需要在Add/Concat之前保存，这会导致更大的峰值内存占用；而普通单分支模型则具有更好的内存高效性能。
+Flexible： 多分支结构会限制CNN的灵活性，比如ResBlock会约束两个分支的tensor具有相同的形状维度，多分支结构对于模型剪枝也不够友好。'><title>RepVGG: Making VGG-style ConvNets Great Again</title>
 
-<link rel='canonical' href='https://log.tcosx.com/p/math-typesetting/'>
+<link rel='canonical' href='https://log.tcosx.com/p/repvgg-making-vgg-style-convnets-great-again/'>
 
-<link rel="stylesheet" href="/scss/style.min.caf479ed4bbc6f3fe88299213007bddf2acfe8ad9b59bb78b0db3e4ef69fddef.css"><meta property='og:title' content='Math Typesetting'>
-<meta property='og:description' content='A brief guide to setup KaTeX'>
-<meta property='og:url' content='https://log.tcosx.com/p/math-typesetting/'>
+<link rel="stylesheet" href="/scss/style.min.caf479ed4bbc6f3fe88299213007bddf2acfe8ad9b59bb78b0db3e4ef69fddef.css"><meta property='og:title' content='RepVGG: Making VGG-style ConvNets Great Again'>
+<meta property='og:description' content='夜不能白熬，整理一下课程汇报的资料。
+模型提出了一种使用重参数化方法把多分支的残差网络整理合并成单路架构的网络结构，并达到了SOTA性能。
+模型特点 VGG-style 文中所指的VGG风格，其实是指：
+ 模型部署时的结构具有和VGG模型一样的拓扑结构，没有多分支，并且在同一stage中输出和输入同维。 模型主体仅使用3*3卷积&#43;ReLU。 架构没有使用像神经结构搜索（Neural Architecture Search）、注意力机制之类的技巧。  &amp;ldquo;Rep&amp;rdquo;——reparameterization 重参数化是指使用参数转换，把一种模型转化为另外一种模型。套壳（bushi
+比如，我们使用VGG16网络时，训练时的参数和推理时的参数是一致的。 $$ D\times C\times K \times K \Rightarrow D\times C\times K \times K $$ 但在RepVGG中，使用多分支的参数并通过形式转化和相加的方式，使之变成形式上等价的参数形式。 $$ [(D\times C\times 1 \times K)&#43; (D\times C\times K \times 1)&#43; (D\times C\times K \times K) ] \Rightarrow D\times C\times K \times K $$ RepVGG的优点：
+Fast：
+作者使用理论上的计算量/时间，发现 3 * 3 卷积的计算密度是最高的。得益于NVIDIA cuDNN和intel MKL对 3 * 3 卷积的优化，加上作者使用了Winograd卷积，使模型在计算时并行效率高，计算速度快。
+Memory-economical：
+训练模型所需的内存少，多分支结构是一种内存低效的架构，这是因为每个分支的结构都需要在Add/Concat之前保存，这会导致更大的峰值内存占用；而普通单分支模型则具有更好的内存高效性能。
+Flexible： 多分支结构会限制CNN的灵活性，比如ResBlock会约束两个分支的tensor具有相同的形状维度，多分支结构对于模型剪枝也不够友好。'>
+<meta property='og:url' content='https://log.tcosx.com/p/repvgg-making-vgg-style-convnets-great-again/'>
 <meta property='og:site_name' content='A Site'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2019-03-08T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2019-03-08T00:00:00&#43;00:00'/><meta property='og:image' content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
-<meta name="twitter:title" content="Math Typesetting">
-<meta name="twitter:description" content="A brief guide to setup KaTeX"><meta name="twitter:card" content="summary_large_image">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2022-05-18T08:13:16&#43;08:00'/><meta property='article:modified_time' content='2022-05-18T08:13:16&#43;08:00'/><meta property='og:image' content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
+<meta name="twitter:title" content="RepVGG: Making VGG-style ConvNets Great Again">
+<meta name="twitter:description" content="夜不能白熬，整理一下课程汇报的资料。
+模型提出了一种使用重参数化方法把多分支的残差网络整理合并成单路架构的网络结构，并达到了SOTA性能。
+模型特点 VGG-style 文中所指的VGG风格，其实是指：
+ 模型部署时的结构具有和VGG模型一样的拓扑结构，没有多分支，并且在同一stage中输出和输入同维。 模型主体仅使用3*3卷积&#43;ReLU。 架构没有使用像神经结构搜索（Neural Architecture Search）、注意力机制之类的技巧。  &amp;ldquo;Rep&amp;rdquo;——reparameterization 重参数化是指使用参数转换，把一种模型转化为另外一种模型。套壳（bushi
+比如，我们使用VGG16网络时，训练时的参数和推理时的参数是一致的。 $$ D\times C\times K \times K \Rightarrow D\times C\times K \times K $$ 但在RepVGG中，使用多分支的参数并通过形式转化和相加的方式，使之变成形式上等价的参数形式。 $$ [(D\times C\times 1 \times K)&#43; (D\times C\times K \times 1)&#43; (D\times C\times K \times K) ] \Rightarrow D\times C\times K \times K $$ RepVGG的优点：
+Fast：
+作者使用理论上的计算量/时间，发现 3 * 3 卷积的计算密度是最高的。得益于NVIDIA cuDNN和intel MKL对 3 * 3 卷积的优化，加上作者使用了Winograd卷积，使模型在计算时并行效率高，计算速度快。
+Memory-economical：
+训练模型所需的内存少，多分支结构是一种内存低效的架构，这是因为每个分支的结构都需要在Add/Concat之前保存，这会导致更大的峰值内存占用；而普通单分支模型则具有更好的内存高效性能。
+Flexible： 多分支结构会限制CNN的灵活性，比如ResBlock会约束两个分支的tensor具有相同的形状维度，多分支结构对于模型剪枝也不够友好。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
     </head>
     <body class="
@@ -204,16 +231,16 @@
 
     <div class="article-details">
     
+    <header class="article-category">
+        
+    </header>
+    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/math-typesetting/">Math Typesetting</a>
+            <a href="/p/repvgg-making-vgg-style-convnets-great-again/">RepVGG: Making VGG-style ConvNets Great Again</a>
         </h2>
     
-        
-        <h3 class="article-subtitle">
-            A brief guide to setup KaTeX
-        </h3>
         
     </div>
 
@@ -230,7 +257,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Mar 08, 2019</time>
+                <time class="article-time--published">May 18, 2022</time>
             </div>
         
 
@@ -245,45 +272,85 @@
     <section class="article-content">
     
     
-    <p>Mathematical notation in a Hugo project can be enabled by using third party JavaScript libraries.</p>
-<p>In this example we will be using <a class="link" href="https://katex.org/"  target="_blank" rel="noopener"
-    >KaTeX</a></p>
+    <p>夜不能白熬，整理一下课程汇报的资料。</p>
+<p>模型提出了一种使用重参数化方法把多分支的残差网络整理合并成单路架构的网络结构，并达到了SOTA性能。</p>
+<h2 id="模型特点">模型特点</h2>
+<h3 id="vgg-style">VGG-style</h3>
+<p>文中所指的VGG风格，其实是指：</p>
 <ul>
-<li>Create a partial under <code>/layouts/partials/math.html</code></li>
-<li>Within this partial reference the <a class="link" href="https://katex.org/docs/autorender.html"  target="_blank" rel="noopener"
-    >Auto-render Extension</a> or host these scripts locally.</li>
-<li>Include the partial in your templates like so:</li>
+<li>模型部署时的结构具有和VGG模型一样的拓扑结构，没有多分支，并且在同一stage中输出和输入同维。</li>
+<li>模型主体仅使用3*3卷积+ReLU。</li>
+<li>架构没有使用像神经结构搜索（Neural Architecture Search）、注意力机制之类的技巧。</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">{{</span> <span class="k">if</span> or .Params.math .Site.Params.math <span class="o">}}</span>
-</span></span><span class="line"><span class="cl"><span class="o">{{</span> partial <span class="s2">&#34;math.html&#34;</span> . <span class="o">}}</span>
-</span></span><span class="line"><span class="cl"><span class="o">{{</span> end <span class="o">}}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>To enable KaTex globally set the parameter <code>math</code> to <code>true</code> in a project&rsquo;s configuration</li>
-<li>To enable KaTex on a per page basis include the parameter <code>math: true</code> in content files</li>
-</ul>
-<p><strong>Note:</strong> Use the online reference of <a class="link" href="https://katex.org/docs/supported.html"  target="_blank" rel="noopener"
-    >Supported TeX Functions</a></p>
-
-<h3 id="examples">Examples</h3>
-
-<p>Block math:
+<h3 id="repreparameterization">&ldquo;Rep&rdquo;——reparameterization</h3>
+<p>重参数化是指使用参数转换，把一种模型转化为另外一种模型。套壳（bushi</p>
+<p>比如，我们使用VGG16网络时，训练时的参数和推理时的参数是一致的。
 $$
-\varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
-$$</p>
+D\times C\times K \times K \Rightarrow D\times C\times K \times K
+$$
+但在RepVGG中，使用多分支的参数并通过形式转化和相加的方式，使之变成形式上等价的参数形式。
+$$
+[(D\times C\times 1 \times K)+
+(D\times C\times K \times 1)+
+(D\times C\times K \times K)
+] \Rightarrow D\times C\times K \times K
+$$
+RepVGG的优点：</p>
+<p>Fast：</p>
+<p>作者使用理论上的计算量/时间，发现 3 * 3 卷积的计算密度是最高的。得益于NVIDIA cuDNN和intel MKL对 3 * 3 卷积的优化，加上作者使用了Winograd卷积，使模型在计算时并行效率高，计算速度快。</p>
+<p>Memory-economical：</p>
+<p>训练模型所需的内存少，多分支结构是一种内存低效的架构，这是因为每个分支的结构都需要在Add/Concat之前保存，这会导致更大的峰值内存占用；而普通单分支模型则具有更好的内存高效性能。</p>
+<p><strong>Flexible</strong>： 多分支结构会限制CNN的灵活性，比如ResBlock会约束两个分支的tensor具有相同的形状维度，多分支结构对于模型剪枝也不够友好。</p>
+<h2 id="模型搭建">模型搭建</h2>
+<p>模型搭建的重点是在重参数化，即多分支训练单分支部署。这要保证二者参数形式上一致。</p>
+<p>转化的过程主要有两个步骤：</p>
+<ul>
+<li>一是BN层与卷积层的融合</li>
+<li>二是不同分支的卷积层化为同维度之后相加</li>
+</ul>
+<p>卷积层和BN层融合的过程是通过将卷积公式代入BN公式，重新整理完成的。</p>
+<p>卷积层之间的相加，</p>
+<p>3 * 3卷积通过padding1层保证输出维度不变。</p>
+<p>1 * 1卷积走过的路径其实和3 * 3卷积在原图padding一层之后，中间位置走过的路径是一致的。</p>
+<p>至于identity恒等映射，是通过把非当前通道的所有channel置0的方式，得到当前channel一样的输出。</p>
+<h3 id="消融实验有效性验证">消融实验有效性验证</h3>
+<p>所有模型都从头开始训练了 120 个 epoch上面描述的简单训练设置。首先，我们进行通过去除同一性和/或 1×1 分支进行消融研究来自 RepVGG-B0 的每个块。随着两个分支的移除，训练时的模型退化为原始单路模型，</p>
+<p>仅达到 72.39% 的准确率。准确率提高到 73.15% 加了1 × 1 或 74.79% 与identity。</p>
+<p>全功能RepVGG-B0的准确率为75.14%，</p>
+<p>加了identity比plain高了2.4%</p>
+<p>加了1*1比原始高了0.76%</p>
+<p>比普通普通款高出2.75%。</p>
+<p>另外作者提到，如果推理时使用训练模型得到的效果和重参数化后的模型完全一样，但是时间消耗增加30%左右。</p>
+<h2 id="实验结果">实验结果</h2>
+<p>在1080Ti上测试，RepVGG模型的速度-精度相当出色。在公平的训练设定下，同精度的RepVGG速度是ResNet-50的183%，ResNet-101的201%。注意，RepVGG取得超过EfficientNet和RegNet的性能并没有使用任何的NAS或繁重的人工迭代设计。</p>
+<p>最后需要注明的是，RepVGG是为GPU和专用硬件设计的高效模型，追求高速度、省内存，较少关注参数量和理论计算量。在低算力设备上，可能不如MobileNet和ShuffleNet系列适用。</p>
+<p>另外作者也展望了与大卷积核相结合之后的效益。重参数化引入其实为很多创新预留了空间</p>
+<p>对于参数量的基本原则：作者认为大力出奇迹，参数量多就是好，模型大就是猛，比如搭配大卷积核进行重参数化效果会更好。而且实验表明，数据集越小，模型越小，重参数化越重要</p>
+<p>convNext和vision Transformer 超大卷积核的效应。</p>
+<hr>
+<p><strong>Reference:</strong></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/344324470"  target="_blank" rel="noopener"
+    >RepVGG：极简架构，SOTA性能，让VGG式模型再次伟大（CVPR-2021） - 知乎 (zhihu.com)</a></p>
+<p><a class="link" href="https://www.cnblogs.com/lipoicyclic/p/16051143.html"  target="_blank" rel="noopener"
+    >深度网络重参数化 - 脂环 - 博客园 (cnblogs.com)</a></p>
+<p><a class="link" href="https://blog.51cto.com/u_15457455/4802419"  target="_blank" rel="noopener"
+    >RepVGG：极简架构，SOTA性能，让VGG式模型再次伟大_wx61b56d7a20700的技术博客_51CTO博客</a></p>
+<p><a class="link" href="https://www.cnblogs.com/shuimuqingyang/p/14472515.html"  target="_blank" rel="noopener"
+    >大道至简！深度解读CVPR2021论文RepVGG - 水木清扬 - 博客园 (cnblogs.com)</a></p>
+<p><a class="link" href="https://arxiv.org/abs/2101.03697"  target="_blank" rel="noopener"
+    >2101.03697] RepVGG: Making VGG-style ConvNets Great Again (arxiv.org)</a></p>
+<p><a class="link" href="https://docs.nvidia.com/deeplearning/performance/dl-performance-convolutional/index.html"  target="_blank" rel="noopener"
+    >Convolutional Layers User&rsquo;s Guide :: NVIDIA Deep Learning Performance Documentation</a></p>
+
 </section>
 
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+    </section>
+
 
     
     <section class="article-copyright">
@@ -454,11 +521,18 @@ $$</p>
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li>
+    <li><a href="#模型特点">模型特点</a>
       <ol>
-        <li><a href="#examples">Examples</a></li>
+        <li><a href="#vgg-style">VGG-style</a></li>
+        <li><a href="#repreparameterization">&ldquo;Rep&rdquo;——reparameterization</a></li>
       </ol>
     </li>
+    <li><a href="#模型搭建">模型搭建</a>
+      <ol>
+        <li><a href="#消融实验有效性验证">消融实验有效性验证</a></li>
+      </ol>
+    </li>
+    <li><a href="#实验结果">实验结果</a></li>
   </ol>
 </nav>
         </div>
