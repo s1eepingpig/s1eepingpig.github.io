@@ -12,7 +12,7 @@
         <pubDate>Wed, 18 May 2022 08:13:16 +0800</pubDate>
         
         <guid>https://log.tcosx.com/p/repvgg-making-vgg-style-convnets-great-again/</guid>
-        <description>&lt;p&gt;夜不能白熬，整理一下课程汇报的资料。&lt;/p&gt;
+        <description>&lt;img src="https://sat02pap002files.storage.live.com/y4muLtNJETXzlxmIT3lPEhM1ij1SUBxEPypz3i2rDR31WbJMS3plZhI1aaBc8Dni4vLvkiuy34nfPt-jLjvc4JOOwnPdAMWQCw5-1T2x4x6Asli7eGnZfzKdm3dLyXDDIcqOe-ElOy8TtEPDqOPZhZ-d9vxkhCM-HhPnf8UJstQQUe5IkoAYYpW2t0SWYTbYOyw?width=1429&height=708&cropmode=none" alt="Featured image of post RepVGG: Making VGG-style ConvNets Great Again" /&gt;&lt;p&gt;夜不能白熬，整理一下课程汇报的资料。&lt;/p&gt;
 &lt;p&gt;模型提出了一种使用重参数化方法把多分支的残差网络整理合并成单路架构的网络结构，并达到了SOTA性能。&lt;/p&gt;
 &lt;h2 id=&#34;模型特点&#34;&gt;模型特点&lt;/h2&gt;
 &lt;h3 id=&#34;vgg-style&#34;&gt;VGG-style&lt;/h3&gt;
@@ -79,6 +79,8 @@ RepVGG的优点：&lt;/p&gt;
 &lt;p&gt;最后需要注明的是，RepVGG是为GPU和专用硬件设计的高效模型，追求高速度、省内存，较少关注参数量和理论计算量。在低算力设备上，可能不如MobileNet和ShuffleNet系列适用。&lt;/p&gt;
 &lt;p&gt;另外作者也展望了与大卷积核相结合之后的效益。重参数化引入其实为后续很多创新预留了空间。&lt;/p&gt;
 &lt;p&gt;对于参数量的基本原则：作者认为大力出奇迹，参数量多就是好，模型大就是猛，比如搭配大卷积核进行重参数化效果会更好。而且实验表明，数据集越小，模型越小，重参数化越重要。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Slide:&lt;/strong&gt; &lt;a class=&#34;link&#34; href=&#34;https://drive.tcosx.com/public/Documents/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/PresentationOutPut.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PreSlide.pdf&lt;/a&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;Reference:&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/344324470&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
