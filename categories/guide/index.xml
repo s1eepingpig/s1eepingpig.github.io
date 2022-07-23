@@ -529,7 +529,10 @@
 &lt;p&gt;项目运行内存最低2G左右，实际使用时会根据数据库表和数据量增加而增加。&lt;/p&gt;
 &lt;h3 id=&#34;datax迁移postgresql时出现失败的情况&#34;&gt;DataX迁移PostgreSQL时出现失败的情况&lt;/h3&gt;
 &lt;p&gt;更新 &lt;code&gt;reader&lt;/code&gt; 和 &lt;code&gt;writer&lt;/code&gt; 中依赖PostgreSQL Jar &lt;code&gt;postgresql-42.3.3.jar&lt;/code&gt; 的版本&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://jdbc.postgresql.org/download.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PostgreSQL JDBC Download&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;具体的路径在 &lt;code&gt;datax/plugin/reader/postgresqlreader/libs/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;具体的路径在 &lt;code&gt;datax/plugin/writer/postgresqlwriter/libs/&lt;/code&gt;&lt;/p&gt;
 &lt;h3 id=&#34;jdk安装完成后出现-jps-not-found&#34;&gt;JDK安装完成后出现 jps not found&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;如果未安装Java JDK，先安装JDK&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;若安装完后 &lt;code&gt;java&lt;/code&gt; 和 &lt;code&gt;javac&lt;/code&gt; 可用，&lt;code&gt;jps&lt;/code&gt; 仍然not found，是配置的问题&lt;/p&gt;
@@ -578,6 +581,8 @@
     &gt;MySQL8.0安装教程，在Linux环境安装 啥也不是人员的博客-CSDN博客_linux安装mysql8.0&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-8.0/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;MySQL-8.0/ | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://jdbc.postgresql.org/download.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PostgreSQL JDBC Download&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
