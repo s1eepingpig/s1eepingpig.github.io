@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='需要的环境：  JDK8 MySQL-8.0 Python-2.7  本地Java和MySQL环境安装，如已安装请跳至步骤4
+本地Java安装 下载安装包并安装 1 2 3 4  # 下载包 jdk-8u281-linux-x64.rpm # 安装 rpm -ivh jdk-8u281-linux-x64.rpm   配置环境变量 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  # 查找jps的位置 find / -name jps # 根据查找到的真实路径配置java路径 vim /etc/profile #添加以上Java路径到环境变量 export JAVA_HOME=/usr/java/jdk1.8.0_281-amd64/ PATH=$PATH:$JAVA_HOME/bin # 刷新 source /etc/profile #尝试命令 java javac jps   本地MySQL安装 下载对应版本安装包，比如：
+mysql-8.0.29-linux-glibc2.12-x86_64.tar.xz（清华源）'><title>Datax-web安装</title>
+
+<link rel='canonical' href='https://log.tcosx.com/p/datax-web%E5%AE%89%E8%A3%85/'>
+
+<link rel="stylesheet" href="/scss/style.min.caf479ed4bbc6f3fe88299213007bddf2acfe8ad9b59bb78b0db3e4ef69fddef.css"><meta property='og:title' content='Datax-web安装'>
+<meta property='og:description' content='需要的环境：  JDK8 MySQL-8.0 Python-2.7  本地Java和MySQL环境安装，如已安装请跳至步骤4
+本地Java安装 下载安装包并安装 1 2 3 4  # 下载包 jdk-8u281-linux-x64.rpm # 安装 rpm -ivh jdk-8u281-linux-x64.rpm   配置环境变量 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  # 查找jps的位置 find / -name jps # 根据查找到的真实路径配置java路径 vim /etc/profile #添加以上Java路径到环境变量 export JAVA_HOME=/usr/java/jdk1.8.0_281-amd64/ PATH=$PATH:$JAVA_HOME/bin # 刷新 source /etc/profile #尝试命令 java javac jps   本地MySQL安装 下载对应版本安装包，比如：
+mysql-8.0.29-linux-glibc2.12-x86_64.tar.xz（清华源）'>
+<meta property='og:url' content='https://log.tcosx.com/p/datax-web%E5%AE%89%E8%A3%85/'>
+<meta property='og:site_name' content='A Site'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2022-07-23T19:59:36&#43;08:00'/><meta property='article:modified_time' content='2022-07-23T19:59:36&#43;08:00'/><meta property='og:image' content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
+<meta name="twitter:title" content="Datax-web安装">
+<meta name="twitter:description" content="需要的环境：  JDK8 MySQL-8.0 Python-2.7  本地Java和MySQL环境安装，如已安装请跳至步骤4
+本地Java安装 下载安装包并安装 1 2 3 4  # 下载包 jdk-8u281-linux-x64.rpm # 安装 rpm -ivh jdk-8u281-linux-x64.rpm   配置环境变量 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  # 查找jps的位置 find / -name jps # 根据查找到的真实路径配置java路径 vim /etc/profile #添加以上Java路径到环境变量 export JAVA_HOME=/usr/java/jdk1.8.0_281-amd64/ PATH=$PATH:$JAVA_HOME/bin # 刷新 source /etc/profile #尝试命令 java javac jps   本地MySQL安装 下载对应版本安装包，比如：
+mysql-8.0.29-linux-glibc2.12-x86_64.tar.xz（清华源）"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&height=149&cropmode=none' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "auto");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="https://sat02pap002files.storage.live.com/y4m0F5qEqpbSXmi_iyUZtkZ7Cu4CptqZly7lUNfoQcB2uBNazcK5dRiiULSGHG7kGmM9RyCObTze2n1Zje0UEpNX2dgVUTp4Ip24KaYv2Fvk_zvVRUHslz8MPYreRzEDht6-wjBk9iry4kiXwrlMR9rdIaJoG8Y7-3ar2IXJhWraq6wBgtAwBhuGC0D6L4oqFxN?width=151&amp;height=149&amp;cropmode=none" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🎲</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">A Site</a></h1>
+            <h2 class="site-description">Is there a lucky guy waiting for u at the end of this crusade?</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://drive.tcosx.com/'
+                        target="_blank"
+                        title="OneManager"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/onemanager/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+                
+                <span>OneManager</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://log.tcosx.com/" selected>English</option>
+                        
+                            <option value="https://log.tcosx.com/cn/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/guide/" >
+                Guide
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/datax-web%E5%AE%89%E8%A3%85/">Datax-web安装</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 23, 2022</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="需要的环境">需要的环境：</h2>
+<ul>
+<li>JDK8</li>
+<li>MySQL-8.0</li>
+<li>Python-2.7</li>
+</ul>
+<p><strong>本地Java和MySQL环境安装，如已安装请跳至步骤4</strong></p>
+<h2 id="本地java安装">本地Java安装</h2>
+<h3 id="下载安装包并安装">下载安装包并安装</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 下载包</span>
+</span></span><span class="line"><span class="cl">jdk-8u281-linux-x64.rpm
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装</span>
+</span></span><span class="line"><span class="cl">rpm -ivh jdk-8u281-linux-x64.rpm
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="配置环境变量">配置环境变量</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查找jps的位置</span>
+</span></span><span class="line"><span class="cl">find / -name jps
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 根据查找到的真实路径配置java路径</span>
+</span></span><span class="line"><span class="cl">vim /etc/profile
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#添加以上Java路径到环境变量</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/jdk1.8.0_281-amd64/
+</span></span><span class="line"><span class="cl"><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 刷新</span>
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> /etc/profile
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#尝试命令</span>
+</span></span><span class="line"><span class="cl">java
+</span></span><span class="line"><span class="cl">javac
+</span></span><span class="line"><span class="cl">jps
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="本地mysql安装">本地MySQL安装</h2>
+<p>下载对应版本安装包，比如：</p>
+<p><a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-8.0/mysql-8.0.29-linux-glibc2.12-x86_64.tar.xz"  target="_blank" rel="noopener"
+    >mysql-8.0.29-linux-glibc2.12-x86_64.tar.xz</a>（清华源）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#在/usr/local/路径下新建mysql目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /usr/local/
+</span></span><span class="line"><span class="cl">mkdir mysql
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#切换到mysql路径下，下载或上传安装包</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">wget https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-8.0/mysql-8.0.29-linux-glibc2.12-x86_64.tar.xz
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#xshell使用rzbe+回车上传</span>
+</span></span><span class="line"><span class="cl">rz -be mysql.tar.xz
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#解压</span>
+</span></span><span class="line"><span class="cl">tar xvJf mysql-8.0.20-linux-glibc2.12-x86_64.tar.xz 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#在mysql路径下新建data目录</span>
+</span></span><span class="line"><span class="cl">mkdir data
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#将解压后的目录重命名</span>
+</span></span><span class="line"><span class="cl">mv mysql-8.0.20-linux-glibc2.12-x86_64 mysql-8.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#分别创建分组及用户名密码（如已创建就跳过</span>
+</span></span><span class="line"><span class="cl">groupadd mysql
+</span></span><span class="line"><span class="cl">useradd -g mysql mysql
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#授权给用户</span>
+</span></span><span class="line"><span class="cl">chown -R mysql.mysql /usr/local/mysql/mysql-8.0
+</span></span><span class="line"><span class="cl">chmod <span class="m">750</span> /usr/local/mysql/data -R
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#配置环境变量</span>
+</span></span><span class="line"><span class="cl">vim /etc/profile
+</span></span><span class="line"><span class="cl"><span class="c1">#在最后添加，保存退出</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/usr/local/mysql/mysql-8.0/bin:/usr/local/mysql/mysql-8.0/lib
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#编辑my.cnf文件</span>
+</span></span><span class="line"><span class="cl">vi /etc/my.cnf
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将以下拷贝替换原 <code>my.cnf</code> 文件	（⚠️注意检查路径，原文件做好备份</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>mysql<span class="o">]</span>
+</span></span><span class="line"><span class="cl">default-character-set<span class="o">=</span>utf8mb4
+</span></span><span class="line"><span class="cl"><span class="o">[</span>client<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#port=3306</span>
+</span></span><span class="line"><span class="cl"><span class="nv">socket</span><span class="o">=</span>/var/lib/mysql/mysql.sock
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>mysqld<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#port=3306</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#server-id=3306</span>
+</span></span><span class="line"><span class="cl"><span class="nv">user</span><span class="o">=</span>mysql
+</span></span><span class="line"><span class="cl"><span class="nv">general_log</span> <span class="o">=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">general_log_file</span><span class="o">=</span> /var/log/mysql/mysql.log
+</span></span><span class="line"><span class="cl"><span class="nv">socket</span><span class="o">=</span>/var/lib/mysql/mysql.sock
+</span></span><span class="line"><span class="cl"><span class="nv">basedir</span><span class="o">=</span>/usr/local/mysql/mysql-8.0
+</span></span><span class="line"><span class="cl"><span class="nv">datadir</span><span class="o">=</span>/usr/local/mysql/data
+</span></span><span class="line"><span class="cl">log-bin<span class="o">=</span>/usr/local/mysql/data/mysql-bin
+</span></span><span class="line"><span class="cl"><span class="nv">innodb_data_home_dir</span><span class="o">=</span>/usr/local/mysql/data
+</span></span><span class="line"><span class="cl"><span class="nv">innodb_log_group_home_dir</span><span class="o">=</span>/usr/local/mysql/data/
+</span></span><span class="line"><span class="cl">character-set-server<span class="o">=</span>utf8mb4
+</span></span><span class="line"><span class="cl"><span class="nv">lower_case_table_names</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">autocommit</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">default_authentication_plugin</span><span class="o">=</span>mysql_native_password
+</span></span><span class="line"><span class="cl">symbolic-links<span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Disabling symbolic-links is recommended to prevent assorted security risks</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Settings user and group are ignored when systemd is used.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># If you need to run mysqld under a different user or group,</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># customize your systemd unit file for mariadb according to the</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># instructions in http://fedoraproject.org/wiki/Systemd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>mysqld_safe<span class="o">]</span>
+</span></span><span class="line"><span class="cl">log-error<span class="o">=</span>/usr/local/mysql/data/mysql.log
+</span></span><span class="line"><span class="cl">pid-file<span class="o">=</span>/usr/local/mysql/data/mysql.pid
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># include all files from the config directory</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>切换至 <code>/usr/local/mysql/mysql-8.0/bin</code> 目录下，初始化MySQL(在bin目录下执行)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> bin
+</span></span><span class="line"><span class="cl">./mysqld --user<span class="o">=</span>mysql --basedir<span class="o">=</span>/usr/local/mysql/mysql-8.0 --datadir<span class="o">=</span>/usr/local/mysql/data/ --initialize
+</span></span><span class="line"><span class="cl"><span class="c1"># 复制控制台输出的用户名和密码到本地</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>复制控制台输出的用户名和密码到本地</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 复制 mysql.server 文件，在/usr/local/mysql/mysql-8.0目录下执行</span>
+</span></span><span class="line"><span class="cl">cp -a ./support-files/mysql.server /etc/init.d/mysql 
+</span></span><span class="line"><span class="cl">cp -a ./support-files/mysql.server /etc/init.d/mysqld
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#给权限</span>
+</span></span><span class="line"><span class="cl">chown <span class="m">777</span> /etc/my.cnf
+</span></span><span class="line"><span class="cl">chmod +x /etc/init.d/mysql
+</span></span><span class="line"><span class="cl">chmod +x /etc/init.d/mysqld
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#检查一下/var/lib/mysql是否存在，否则创建</span>
+</span></span><span class="line"><span class="cl">mkdir /var/lib/mysql 
+</span></span><span class="line"><span class="cl"><span class="c1">#给权限</span>
+</span></span><span class="line"><span class="cl">chown -R mysql:mysql /var/lib/mysql/ 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#启动</span>
+</span></span><span class="line"><span class="cl">service mysql start 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如失败，进入 <code>mysql/data/mysql.log</code> 查看日志进行debug</p>
+<h3 id="配置远程连接如不需要可跳过">配置远程连接，如不需要可跳过</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 修改数据库root账号的密码，并设置可以远程访问（因为root默认是不能远程访问的）</span>
+</span></span><span class="line"><span class="cl">ALTER USER <span class="s1">&#39;root&#39;</span>@<span class="s1">&#39;localhost&#39;</span> IDENTIFIED WITH mysql_native_password BY <span class="s1">&#39;新密码&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#刷新</span>
+</span></span><span class="line"><span class="cl">flush privileges<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#选择数据库</span>
+</span></span><span class="line"><span class="cl">use mysql<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#再修改远程连接并生效</span>
+</span></span><span class="line"><span class="cl">update user <span class="nb">set</span> <span class="nv">host</span><span class="o">=</span><span class="s1">&#39;%&#39;</span> where <span class="nv">user</span><span class="o">=</span><span class="s1">&#39;root&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#再刷新</span>
+</span></span><span class="line"><span class="cl">flush privileges<span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>另: MySQL创建新数据库用户并授权</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1)创建用户(名称随意，这里的用户名称为mysql)并可以远程访问</span>
+</span></span><span class="line"><span class="cl">CREATE user <span class="s1">&#39;mysql&#39;</span>@<span class="s1">&#39;%&#39;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="c1">#修改密码</span>
+</span></span><span class="line"><span class="cl">alter user <span class="s1">&#39;mysql&#39;</span>@<span class="s1">&#39;%&#39;</span> identified with mysql_native_password by <span class="s1">&#39;tcl.2021&#39;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2)创建新的数据库</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#create database 数据库名 default character set utf8mb4 collate utf8mb4_unicode_ci;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 3)把新的数据库授权给新用户</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#将test库的所有权限赋予mysql用户</span>
+</span></span><span class="line"><span class="cl">grant all privileges on test.* to <span class="s2">&#34;mysql&#34;</span>@<span class="s2">&#34;%&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">grant all privileges on test.* to <span class="s2">&#34;tcl&#34;</span>@<span class="s2">&#34;%&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 4）、刷新权限</span>
+</span></span><span class="line"><span class="cl">flush privileges<span class="p">;</span> 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="datax和dataxweb安装">datax和dataxWeb安装</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 创建新文件夹用以放置datax和dataxweb</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /home/
+</span></span><span class="line"><span class="cl">mkdir dataXlib
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> dataXlib/
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 下载解压 datax </span>
+</span></span><span class="line"><span class="cl">wget https://datax-opensource.oss-cn-hangzhou.aliyuncs.com/20220530/datax.tar.gz
+</span></span><span class="line"><span class="cl">tar xfv datax.tar.gz
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#下载解压 datax-web </span>
+</span></span><span class="line"><span class="cl">wget https://drive.tcosx.com/public/dataX/datax-web-2.1.2.tar.gz
+</span></span><span class="line"><span class="cl">tar xfv datax-web-2.1.2.tar.gz
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装 datax-web,按提示要求输入Y,如已安装mysql命令, 则dataxweb会自动配置相应数据库表</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> datax-web-2.1.2
+</span></span><span class="line"><span class="cl">./bin/install.sh
+</span></span><span class="line"><span class="cl"><span class="c1"># 如未安装mysql命令，可以取用目录下/bin/db/datax-web.sql脚本去手动执行，完成后修改相关配置文件</span>
+</span></span><span class="line"><span class="cl">vi ./modules/datax-admin/conf/bootstrap.properties
+</span></span><span class="line"><span class="cl">-----------
+</span></span><span class="line"><span class="cl"><span class="c1">#Database</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#DB_HOST=</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#DB_PORT=</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#DB_USERNAME=</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#DB_PASSWORD=</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#DB_DATABASE=</span>
+</span></span><span class="line"><span class="cl">----------
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#（可选）配置邮件服务,此文件中包括一些默认配置参数，例如：server.port，具体请查看文件。</span>
+</span></span><span class="line"><span class="cl"> vi ./modules/datax-admin/bin/env.properties
+</span></span><span class="line"><span class="cl">----------
+</span></span><span class="line"><span class="cl"><span class="nv">MAIL_USERNAME</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">MAIL_PASSWORD</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">----------
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置执行datax的python脚本地址路径 比如（/home/datax/bin/datax.py）到 datax-executor/bin/env.properties</span>
+</span></span><span class="line"><span class="cl">vim modules/datax-executor/bin/env.properties
+</span></span><span class="line"><span class="cl">----------
+</span></span><span class="line"><span class="cl"><span class="c1">### 执行datax的python脚本地址</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PYTHON_PATH</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">### 保持和datax-admin服务的端口一致；默认是9527，如果没改datax-admin的端口，可以忽略</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DATAX_ADMIN_PORT</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl">----------
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run</span>
+</span></span><span class="line"><span class="cl">./bin/start-all.sh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># jps 出现DataXExecutorApplication和DataXAdminApplication 运行成功</span>
+</span></span><span class="line"><span class="cl">jps
+</span></span><span class="line"><span class="cl">---------
+</span></span><span class="line"><span class="cl"> DataXExecutorApplication
+</span></span><span class="line"><span class="cl"> DataXAdminApplication
+</span></span><span class="line"><span class="cl">---------
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果项目启动失败，请检查启动日志：</span>
+</span></span><span class="line"><span class="cl">modules/datax-admin/bin/console.out
+</span></span><span class="line"><span class="cl"><span class="c1"># 或者</span>
+</span></span><span class="line"><span class="cl">modules/datax-executor/bin/console.out
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看网页  http://{ip}:{port:默认9527}/index.html</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># username admin</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># pass 123456</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 运行日志</span>
+</span></span><span class="line"><span class="cl">部署完成之后，在modules/对应的项目/data/applogs下<span class="o">(</span>用户也可以自己指定日志，修改application.yml 中的logpath地址即可<span class="o">)</span>，用户可以根据此日志跟踪项目实际启动情况
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 取消所有服务</span>
+</span></span><span class="line"><span class="cl">./bin/stop-all.sh
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="其他">其他：</h2>
+<p>项目运行内存最低2G左右，实际使用时会根据数据库表和数据量增加而增加。</p>
+<h3 id="datax迁移postgresql时出现失败的情况">DataX迁移PostgreSQL时出现失败的情况</h3>
+<p>更新 <code>reader</code> 和 <code>writer</code> 中依赖PostgreSQL Jar <code>postgresql-42.3.3.jar</code> 的版本</p>
+<p>具体的路径在 <code>datax/plugin/reader/postgresqlreader/libs/</code></p>
+<h3 id="jdk安装完成后出现-jps-not-found">JDK安装完成后出现 jps not found</h3>
+<p><strong>如果未安装Java JDK，先安装JDK</strong></p>
+<p>若安装完后 <code>java</code> 和 <code>javac</code> 可用，<code>jps</code> 仍然not found，是配置的问题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查找jps的位置</span>
+</span></span><span class="line"><span class="cl">find / -name jps
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/System/Volumes/Data/Library/Java/zulu-8.jdk/bin/jps
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置java路径</span>
+</span></span><span class="line"><span class="cl">vim /etc/profile
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#添加以上Java路径到环境变量</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/jdk1.8.0_281-amd64/
+</span></span><span class="line"><span class="cl"><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 刷新</span>
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> /etc/profile
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="ref">Ref：</h2>
+<p><a class="link" href="https://github.com/WeiYe-Jing/datax-web/blob/master/doc/datax-web/datax-web-deploy.md"  target="_blank" rel="noopener"
+    >datax-web/datax-web-deploy.md at master · WeiYe-Jing/datax-web (github.com)</a></p>
+<p><a class="link" href="https://github.com/alibaba/DataX"  target="_blank" rel="noopener"
+    >alibaba/DataX: DataX是阿里云DataWorks数据集成的开源版本 (GitHub)</a></p>
+<p><a class="link" href="https://blog.csdn.net/qq_44134480/article/details/116036488"  target="_blank" rel="noopener"
+    >Datax入门使用_人在旅途ぃ的博客-CSDN博客</a></p>
+<p><a class="link" href="https://blog.csdn.net/qq_35124072/article/details/122867295"  target="_blank" rel="noopener"
+    >MySQL8.0安装教程，在Linux环境安装 啥也不是人员的博客-CSDN博客_linux安装mysql8.0</a></p>
+<p><a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-8.0/"  target="_blank" rel="noopener"
+    >MySQL-8.0/ | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-contents--wrapper">
+    <h2 class="section-title">Related contents</h2>
+    <div class="related-contents">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/github%E5%AD%A6%E7%94%9F%E5%8C%85%E7%94%B3%E8%AF%B7%E6%8C%87%E5%8C%97/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://sat02pap002files.storage.live.com/y4mLBs9un3S2yAvlUWyW4Jk8b45ZG0x9apuXVeCaYShy_btYO3tpxTQjpiHi_kJVWNFhGiJ-DT-n8ee3utI__GGBsLZB5kxEkMqv3gddMn5KrGJvAGmHhzufDiX1DNVy2loHbLmsx86cucWtHsyjm3h7LLA7_7koYw8I2Ui_P5yBPbJ3eaHkiSRRiSuhzTjoQQ4?width=1024&amp;height=425&amp;cropmode=none" loading="lazy" data-key="" data-hash="https://sat02pap002files.storage.live.com/y4mLBs9un3S2yAvlUWyW4Jk8b45ZG0x9apuXVeCaYShy_btYO3tpxTQjpiHi_kJVWNFhGiJ-DT-n8ee3utI__GGBsLZB5kxEkMqv3gddMn5KrGJvAGmHhzufDiX1DNVy2loHbLmsx86cucWtHsyjm3h7LLA7_7koYw8I2Ui_P5yBPbJ3eaHkiSRRiSuhzTjoQQ4?width=1024&amp;height=425&amp;cropmode=none"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">GitHub学生包申请指北</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="has-image">
+    <a href="/p/repvgg-making-vgg-style-convnets-great-again/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://sat02pap002files.storage.live.com/y4muLtNJETXzlxmIT3lPEhM1ij1SUBxEPypz3i2rDR31WbJMS3plZhI1aaBc8Dni4vLvkiuy34nfPt-jLjvc4JOOwnPdAMWQCw5-1T2x4x6Asli7eGnZfzKdm3dLyXDDIcqOe-ElOy8TtEPDqOPZhZ-d9vxkhCM-HhPnf8UJstQQUe5IkoAYYpW2t0SWYTbYOyw?width=1429&amp;height=708&amp;cropmode=none" loading="lazy" data-key="" data-hash="https://sat02pap002files.storage.live.com/y4muLtNJETXzlxmIT3lPEhM1ij1SUBxEPypz3i2rDR31WbJMS3plZhI1aaBc8Dni4vLvkiuy34nfPt-jLjvc4JOOwnPdAMWQCw5-1T2x4x6Asli7eGnZfzKdm3dLyXDDIcqOe-ElOy8TtEPDqOPZhZ-d9vxkhCM-HhPnf8UJstQQUe5IkoAYYpW2t0SWYTbYOyw?width=1429&amp;height=708&amp;cropmode=none"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">RepVGG: Making VGG-style ConvNets Great Again</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/hugo-commands/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">HUGO ｜Commands</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="has-image">
+    <a href="/p/%E8%81%8A%E8%81%8Avpn/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://sat02pap002files.storage.live.com/y4mE55W9ld1_CCXVIMRrsnAIU7pmqLzAnzEwRvefQ6847o2lwZPD2G7_iPjsxbXkuYx0QdUbmEEoNnyD7ZXeaR_qQY3njWicbW11R3UMpOMH-K1VEo6x1W5uv2yQHpoxGfLMVVJT_xKtMsi6iieXv6AZv9CCfsMrqNhwaiLh5-rxK1d7u6sZl6r0K1YgmXEQgYA?width=222&amp;height=155&amp;cropmode=none" loading="lazy" data-key="" data-hash="https://sat02pap002files.storage.live.com/y4mE55W9ld1_CCXVIMRrsnAIU7pmqLzAnzEwRvefQ6847o2lwZPD2G7_iPjsxbXkuYx0QdUbmEEoNnyD7ZXeaR_qQY3njWicbW11R3UMpOMH-K1VEo6x1W5uv2yQHpoxGfLMVVJT_xKtMsi6iieXv6AZv9CCfsMrqNhwaiLh5-rxK1d7u6sZl6r0K1YgmXEQgYA?width=222&amp;height=155&amp;cropmode=none"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">聊聊VPN</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 A Site
+    </section>
+    
+    <section class="powerby">
+        
+            Coding &nbsp with &nbsp  ❤️ <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.10.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#需要的环境">需要的环境：</a></li>
+    <li><a href="#本地java安装">本地Java安装</a>
+      <ol>
+        <li><a href="#下载安装包并安装">下载安装包并安装</a></li>
+        <li><a href="#配置环境变量">配置环境变量</a></li>
+      </ol>
+    </li>
+    <li><a href="#本地mysql安装">本地MySQL安装</a>
+      <ol>
+        <li><a href="#配置远程连接如不需要可跳过">配置远程连接，如不需要可跳过</a></li>
+      </ol>
+    </li>
+    <li><a href="#datax和dataxweb安装">datax和dataxWeb安装</a></li>
+    <li><a href="#其他">其他：</a>
+      <ol>
+        <li><a href="#datax迁移postgresql时出现失败的情况">DataX迁移PostgreSQL时出现失败的情况</a></li>
+        <li><a href="#jdk安装完成后出现-jps-not-found">JDK安装完成后出现 jps not found</a></li>
+      </ol>
+    </li>
+    <li><a href="#ref">Ref：</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

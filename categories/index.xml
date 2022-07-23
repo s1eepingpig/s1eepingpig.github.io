@@ -6,20 +6,28 @@
         <description>Recent content in Categories on A Site</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Mon, 11 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://log.tcosx.com/categories/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>syntax</title>
-        <link>https://log.tcosx.com/categories/syntax/</link>
-        <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sat, 23 Jul 2022 20:59:45 +0800</lastBuildDate><atom:link href="https://log.tcosx.com/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Frequently Commands</title>
+        <link>https://log.tcosx.com/categories/frequently-commands/</link>
+        <pubDate>Sat, 23 Jul 2022 20:59:45 +0800</pubDate>
         
-        <guid>https://log.tcosx.com/categories/syntax/</guid>
+        <guid>https://log.tcosx.com/categories/frequently-commands/</guid>
         <description></description>
         </item>
         <item>
-        <title>themes</title>
-        <link>https://log.tcosx.com/categories/themes/</link>
-        <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
+        <title>Guide</title>
+        <link>https://log.tcosx.com/categories/guide/</link>
+        <pubDate>Sat, 23 Jul 2022 19:59:36 +0800</pubDate>
         
-        <guid>https://log.tcosx.com/categories/themes/</guid>
+        <guid>https://log.tcosx.com/categories/guide/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Blog</title>
+        <link>https://log.tcosx.com/categories/blog/</link>
+        <pubDate>Mon, 15 Jun 2020 10:57:53 +0800</pubDate>
+        
+        <guid>https://log.tcosx.com/categories/blog/</guid>
         <description></description>
         </item>
         
